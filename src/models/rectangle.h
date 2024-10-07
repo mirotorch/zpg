@@ -6,11 +6,13 @@
 class Rectangle : public Model
 {
 private:
-    static VertexArray* vao;
+    static GLuint default_vao;
+    static GLuint GetDefaultVao();
 public:
     void Draw(Shader *shader, glm::vec4 transformation) override;
     Rectangle(Point bottomLeft, Point topRight);
-    void DeleteVAO();
+    Rectangle(GLuint vao, Point bottomLeft, Point topRight);
+    static void DeleteDefaultVAO();
 };
 
 #endif

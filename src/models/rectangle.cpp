@@ -1,6 +1,18 @@
 #include "rectangle.h"
 
-VertexArray* Rectangle::vao = nullptr;
+GLuint Rectangle::GetDefaultVao()
+{
+    if (default_vao != 0) return default_vao;
+    GLuint id = 0;
+    glGenVertexArrays(1, &id);
+    glBindVertexArray(id);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid *)0);
+    default_vao = id;
+    return id;
+}
+
+GLuint Rectangle::default_vao = 0;
 
 
 void Rectangle::Draw(Shader *shader, glm::vec4 transformation)
@@ -10,14 +22,20 @@ void Rectangle::Draw(Shader *shader, glm::vec4 transformation)
         fputs("Rectangle: shader not found", stderr);
         throw std::runtime_error("shader not found");
     }
-    vbo->Bind();
-    vao->Bind();
     shader->UseProgram();
+    BindVAO();
+    BindVBO();
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-Rectangle::Rectangle(Point bottomLeft, Point topRight)
+Rectangle::Rectangle(Point bottomLeft, Point topRight) 
+: Rectangle(Rectangle::GetDefaultVao(), bottomLeft, topRight)
+{
+
+}
+
+Rectangle::Rectangle(GLuint vao, Point bottomLeft, Point topRight) : Model(0, vao)
 {
     float data[] = {
         bottomLeft.x, bottomLeft.y, bottomLeft.z,
@@ -28,17 +46,13 @@ Rectangle::Rectangle(Point bottomLeft, Point topRight)
         topRight.x, topRight.y, bottomLeft.z,
         bottomLeft.x, topRight.y, bottomLeft.z
     };
-    vbo = new VertexBuffer(data, sizeof(data));
-    vbo->Bind();
-    if (!vao)
-    {
-        vao = new VertexArray();
-        vao->Bind();
-        vao->AddAttribute(3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid *)0);
-    }
+
+    glGenBuffers(1, &this->vbo); 
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
 }
 
-void Rectangle::DeleteVAO()
+void Rectangle::DeleteDefaultVAO()
 {
-    if (vao) delete vao;
+    glDeleteVertexArrays(1, &Rectangle::default_vao);
 }

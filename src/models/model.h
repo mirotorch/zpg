@@ -14,9 +14,12 @@ float* ColoredPointArray(Point &point, Color &color);
 class Model {
 public:
     virtual void Draw(Shader *shader, glm::vec4 transformation) = 0;
-    ~Model();
+    Model(GLuint vbo, GLuint vao);
 protected:
-    VertexBuffer* vbo;
+    GLuint vbo;
+    GLuint vao;
+    void BindVBO();
+    void BindVAO();
 };
 
 #endif
