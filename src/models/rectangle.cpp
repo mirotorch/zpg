@@ -3,16 +3,16 @@
 VertexArray* Rectangle::vao = nullptr;
 
 
-void Rectangle::Draw()
+void Rectangle::Draw(Shader *shader, glm::vec4 transformation)
 {
-    if (!shaders)
+    if (!shader)
     {
-        fputs("Rectangle: shader not set", stderr);
-        return;
+        fputs("Rectangle: shader not found", stderr);
+        throw std::runtime_error("shader not found");
     }
     vbo->Bind();
     vao->Bind();
-    shaders->UseProgram();
+    shader->UseProgram();
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }

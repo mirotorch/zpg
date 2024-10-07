@@ -1,14 +1,14 @@
 #ifndef RECTANGLE
 #define RECTANGLE
 
-#include "figure.h"
+#include "model.h"
 
-class Rectangle : public Figure
+class Rectangle : public Model
 {
 private:
     static VertexArray* vao;
 public:
-    void Draw() override;
+    void Draw(Shader *shader, glm::vec4 transformation) override;
     Rectangle(Point bottomLeft, Point topRight);
     void DeleteVAO();
 };

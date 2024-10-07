@@ -2,16 +2,16 @@
 
 VertexArray* Triangle::vao = nullptr;
 
-void Triangle::Draw()
+void Triangle::Draw(Shader* shader, glm::vec4 transformation)
 {
-    if (!shaders)
+    if (!shader)
     {
-        fputs("Triangle: shader not set", stderr);
-        return;
+        fputs("Triangle: shader not found", stderr);
+        throw std::runtime_error("shader not found");
     }
     vbo->Bind();
     vao->Bind();
-    shaders->UseProgram();
+    shader->UseProgram();
 
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }

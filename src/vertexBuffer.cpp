@@ -14,5 +14,8 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Bind()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, this->id);
+    GLuint current_VBO;
+    glGetIntegerv(GL_BUFFER_BINDING, reinterpret_cast<GLint*>(&current_VBO));
+    if (current_VBO != this->id)
+        glBindBuffer(GL_ARRAY_BUFFER, this->id);
 }

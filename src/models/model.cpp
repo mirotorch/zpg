@@ -1,4 +1,4 @@
-#include "figure.h"
+#include "model.h"
 
 
 float* ColoredPointArray(Point &point, Color &color)
@@ -7,7 +7,7 @@ float* ColoredPointArray(Point &point, Color &color)
     return arr;
 }
 
-Figure::~Figure()
+Model::~Model()
 {
     delete vbo;
 }

@@ -1,5 +1,5 @@
-#ifndef FIGURE
-#define FIGURE
+#ifndef MODEL
+#define MODEL
 
 #include "../vertexArray.h"
 #include "../shader.h"      
@@ -11,11 +11,10 @@ typedef glm::vec4 Color;
 
 float* ColoredPointArray(Point &point, Color &color);
 
-class Figure {
+class Model {
 public:
-    virtual void Draw() = 0;
-    ~Figure();
-    Shader* shaders;
+    virtual void Draw(Shader *shader, glm::vec4 transformation) = 0;
+    ~Model();
 protected:
     VertexBuffer* vbo;
 };
