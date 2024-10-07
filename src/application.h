@@ -1,14 +1,14 @@
 #ifndef APPLICATION
 #define APPLICATION
 
-#include "figures/triangle.h"
-#include "figures/rectangle.h"
+#include "models/triangle.h"
+#include "models/rectangle.h"
 #include <vector>
 
 class Application
 {
 private:
-    std::vector<Figure*> figures;
+    std::vector<Model*> models;
     std::vector<Shader*> shaders;
     GLFWwindow* window;
     

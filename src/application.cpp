@@ -48,9 +48,9 @@ Application::~Application()
 {
     glfwDestroyWindow(this->window);
 
-    for (Figure *figure : this->figures)
+    for (Model *model : this->models)
     {
-        delete figure;
+        delete model;
     }
 
     for (Shader *shader : this->shaders)
@@ -88,15 +88,13 @@ void Application::CreateModels()
         Point(-0.2f, -0.7f, 0.0f),
         Point(-0.4f, -0.4f, 0.0f)
     );
-    test->shaders = shaders[0];
-    figures.push_back(test);
+    models.push_back(test);
 
     Rectangle* square = new Rectangle(
         Point(0.0f, 0.0f, 0.0f),
         Point(0.9f, 0.9f, 0.0f)
     );
-    square->shaders = shaders[1];
-    figures.push_back(square);
+    models.push_back(square);
 }
 
 void Application::Run()
@@ -105,9 +103,15 @@ void Application::Run()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        for (Figure* figure : figures)
+        for (Model* model : models)
         {
-            figure->Draw();
+            Shader* shader;
+            if (dynamic_cast<Triangle*>(model))
+                shader = shaders[0];
+            else
+                shader = shaders[1];
+
+            model->Draw(shader, glm::vec4(1.0f));
         }
 
         // update other events like input handling
