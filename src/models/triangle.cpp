@@ -1,41 +1,12 @@
 #include "triangle.h"
 
-
-GLuint Triangle::GetDefaultVao()
-{
-    if (default_vao != 0) return default_vao;
-    GLuint id = 0;
-    glGenVertexArrays(1, &id);
-    glBindVertexArray(id);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid *)0);
-    default_vao = id;
-    return id;
-}
-
-GLuint Triangle::default_vao = 0;
-
 void Triangle::Draw(Shader* shader, glm::vec4 transformation)
 {
-    if (!shader)
-    {
-        fputs("Triangle: shader not found", stderr);
-        throw std::runtime_error("shader not found");
-    }
-    shader->UseProgram();
-
-    BindVAO();
-    BindVBO();
-    
+    Model::Draw(shader, transformation);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-Triangle::Triangle(Point point_a, Point point_b, Point point_c) 
-: Triangle(Triangle::GetDefaultVao(), point_a, point_b, point_c)
-{
-}
-
-Triangle::Triangle(GLuint vao, Point point_a, Point point_b, Point point_c) : Model(0, vao)
+Triangle::Triangle(Point point_a, Point point_b, Point point_c)
 {
     float data[9] = 
     {
@@ -46,9 +17,9 @@ Triangle::Triangle(GLuint vao, Point point_a, Point point_b, Point point_c) : Mo
     glGenBuffers(1, &this->vbo); 
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
-}
 
-void Triangle::DeleteDefaultVAO()
-{
-    glDeleteVertexArrays(1, &Triangle::default_vao);
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid *)0);
 }

@@ -1,7 +1,6 @@
 #ifndef MODEL
 #define MODEL
 
-#include "../vertexArray.h"
 #include "../shader.h"      
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
@@ -14,7 +13,6 @@ float* ColoredPointArray(Point &point, Color &color);
 class Model {
 public:
     virtual void Draw(Shader *shader, glm::vec4 transformation) = 0;
-    Model(GLuint vbo, GLuint vao);
 protected:
     GLuint vbo;
     GLuint vao;

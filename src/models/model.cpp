@@ -7,11 +7,6 @@ float* ColoredPointArray(Point &point, Color &color)
     return arr;
 }
 
-Model::Model(GLuint vbo, GLuint vao)
-{
-    this->vbo = vbo;
-    this->vao = vao;
-}
 
 void Model::BindVAO()
 {
@@ -19,6 +14,19 @@ void Model::BindVAO()
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, reinterpret_cast<GLint*>(&current_VAO));
     if (current_VAO != this->vao)
         glBindVertexArray(this->vao);
+}
+
+void Model::Draw(Shader *shader, glm::vec4 transformation)
+{
+    if (!shader)
+    {
+        fputs("Model: shader not found", stderr);
+        throw std::runtime_error("shader not found");
+    }
+    shader->UseProgram();
+
+    BindVAO();
+    BindVBO();
 }
 
 void Model::BindVBO()
