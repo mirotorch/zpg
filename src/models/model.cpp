@@ -29,6 +29,12 @@ void Model::Draw(Shader *shader, glm::vec4 transformation)
     BindVBO();
 }
 
+Model::~Model()
+{
+    glDeleteBuffers(1, &vbo);
+    glDeleteVertexArrays(1, &vao);
+}
+
 void Model::BindVBO()
 {
     GLuint current_VBO;

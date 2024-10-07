@@ -83,18 +83,21 @@ void Application::CreateShaders()
 
 void Application::CreateModels()
 {
-    Triangle* test = new Triangle(
-        Point(-0.2f, -0.3f, 0.0f),
-        Point(-0.2f, -0.7f, 0.0f),
-        Point(-0.4f, -0.4f, 0.0f)
-    );
-    models.push_back(test);
+    // Triangle* test = new Triangle(
+    //     Point(-0.2f, -0.3f, 0.0f),
+    //     Point(-0.2f, -0.7f, 0.0f),
+    //     Point(-0.4f, -0.4f, 0.0f)
+    // );
+    // models.push_back(test);
 
-    Rectangle* square = new Rectangle(
-        Point(0.0f, 0.0f, 0.0f),
-        Point(0.9f, 0.9f, 0.0f)
-    );
-    models.push_back(square);
+    // Rectangle* square = new Rectangle(
+    //     Point(0.0f, 0.0f, 0.0f),
+    //     Point(0.9f, 0.9f, 0.0f)
+    // );
+    // models.push_back(square);
+
+    Sphere* sphere = new Sphere();
+    models.push_back(sphere);
 }
 
 void Application::Run()
@@ -106,11 +109,7 @@ void Application::Run()
         for (Model* model : models)
         {
             Shader* shader;
-            if (dynamic_cast<Triangle*>(model))
-                shader = shaders[0];
-            else
-                shader = shaders[1];
-
+            shader = shaders[0];
             model->Draw(shader, glm::vec4(1.0f));
         }
 

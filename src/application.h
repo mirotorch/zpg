@@ -3,6 +3,7 @@
 
 #include "models/triangle.h"
 #include "models/rectangle.h"
+#include "models/sphere.h"
 #include <vector>
 
 class Application
