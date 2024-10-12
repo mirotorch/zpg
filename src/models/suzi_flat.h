@@ -10,7 +10,16 @@
  *
  * @year 2023
  **/
+#pragma once
 
+#include "model.h"
+
+class SuziFlat : public Model
+{
+public:
+    void Draw(Shader *shader, glm::vec4 transformation) override;
+    SuziFlat();
+};
 
 const float suziFlat[17424] ={
 0.468750f , 0.242187f , 0.757812f , 0.663036f , -0.192883f , 0.723312f ,

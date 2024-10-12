@@ -11,6 +11,16 @@
  * @year 2023
  **/
 
+#pragma once
+
+#include "model.h"
+
+class Plain : public Model
+{
+public:
+    void Draw(Shader *shader, glm::vec4 transformation) override;
+    Plain();
+};
 
 const float plain[36] = {
     1.0f, 0.0f,  1.0f, 0.0f, 1.0f, 0.0f,

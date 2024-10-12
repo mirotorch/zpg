@@ -1,16 +1,18 @@
-#include "bushes.h"
+#include "plain.h"
 
-void Bushes::Draw(Shader * shader, glm::vec4 transformation)
+
+
+void Plain::Draw(Shader * shader, glm::vec4 transformation)
 {
     Model::Draw(shader, transformation);
-    glDrawArrays(GL_TRIANGLES, 0, 8730);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-Bushes::Bushes()
+Plain::Plain()
 {
     glGenBuffers(1, &this->vbo); 
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8730, bushes, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 36, plain, GL_STATIC_DRAW);
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);

@@ -9,7 +9,7 @@ void Rectangle::Draw(Shader *shader, glm::vec4 transformation)
 
 Rectangle::Rectangle(Point bottomLeft, Point topRight)
 {
-    float data[] = {
+    float data[18] = {
         bottomLeft.x, bottomLeft.y, bottomLeft.z,
         topRight.x, bottomLeft.y, bottomLeft.z,
         bottomLeft.x, topRight.y, bottomLeft.z,
@@ -21,7 +21,7 @@ Rectangle::Rectangle(Point bottomLeft, Point topRight)
 
     glGenBuffers(1, &this->vbo); 
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, data, GL_STATIC_DRAW);
     
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);

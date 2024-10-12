@@ -1,16 +1,16 @@
-#include "bushes.h"
+#include "suzi_flat.h"
 
-void Bushes::Draw(Shader * shader, glm::vec4 transformation)
+void SuziFlat::Draw(Shader *shader, glm::vec4 transformation)
 {
     Model::Draw(shader, transformation);
-    glDrawArrays(GL_TRIANGLES, 0, 8730);
+    glDrawArrays(GL_TRIANGLES, 0, 17424);
 }
 
-Bushes::Bushes()
+SuziFlat::SuziFlat()
 {
     glGenBuffers(1, &this->vbo); 
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8730, bushes, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 17424, suziFlat, GL_STATIC_DRAW);
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
