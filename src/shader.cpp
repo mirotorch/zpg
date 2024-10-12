@@ -59,12 +59,12 @@ Shader::Shader(const char *vertex_path, const char *fragment_path)
 
 void Shader::UseProgram()
 {
-    GLint current_program;
-    glGetIntegerv(GL_CURRENT_PROGRAM, &current_program);
-    if (current_program != this->shader_program)
-    {
+    // GLint current_program;
+    // glGetIntegerv(GL_CURRENT_PROGRAM, &current_program);
+    // if (current_program != this->shader_program)
+    // {
         glUseProgram(this->shader_program);
-    }
+    // }
 }
 
 void Shader::CheckCompileStatus(const char* shader_path, GLuint id)
