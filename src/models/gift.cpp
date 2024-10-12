@@ -1,8 +1,6 @@
 #include "gift.h"
 
-#include "gift.h"
-
-void Gift::Draw(Shader *shader, glm::vec4 transformation)
+void Gift::Draw(Shader *shader, glm::mat4 transformation)
 {
     Model::Draw(shader, transformation);
     glDrawArrays(GL_TRIANGLES, 0, 399744);

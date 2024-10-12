@@ -4,6 +4,9 @@
 #include "models/triangle.h"
 #include "models/rectangle.h"
 #include "models/sphere.h"
+#include "models/bushes.h"
+#include "models/suzi_flat.h"
+#include "models/tree.h"
 #include <vector>
 
 class Application

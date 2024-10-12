@@ -1,6 +1,6 @@
 #include "sphere.h"
 
-void Sphere::Draw(Shader *shader, glm::vec4 transformation)
+void Sphere::Draw(Shader *shader, glm::mat4 transformation)
 {
     Model::Draw(shader, transformation);
     glDrawArrays(GL_TRIANGLES, 0, 17280);

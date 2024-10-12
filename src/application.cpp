@@ -66,13 +66,13 @@ void Application::CreateShaders()
 {
     try
     {
-        Shader *triangle_shader = new Shader("shaders/triangle_v.glsl", "shaders/triangle_f.glsl");
-        shaders.push_back(triangle_shader);
+        // Shader *triangle_shader = new Shader("shaders/triangle_v.glsl", "shaders/triangle_f.glsl");
+        // shaders.push_back(triangle_shader);
 
-        Shader *rectangle_shader = new Shader("shaders/triangle_v.glsl", "shaders/rectangle_f.glsl");
-        shaders.push_back(rectangle_shader);
+        Shader *normale_shader = new Shader("shaders/normale_v.glsl", "shaders/normale_f.glsl");
+        shaders.push_back(normale_shader);
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
         glfwDestroyWindow(window);
@@ -83,39 +83,46 @@ void Application::CreateShaders()
 
 void Application::CreateModels()
 {
-    // Triangle* test = new Triangle(
-    //     Point(-0.2f, -0.3f, 0.0f),
-    //     Point(-0.2f, -0.7f, 0.0f),
-    //     Point(-0.4f, -0.4f, 0.0f)
-    // );
-    // models.push_back(test);
-
-    // Rectangle* square = new Rectangle(
-    //     Point(0.0f, 0.0f, 0.0f),
-    //     Point(0.9f, 0.9f, 0.0f)
-    // );
-    // models.push_back(square);
-
+    // Tree* tree = new Tree();
+    // models.push_back(tree);
     Sphere* sphere = new Sphere();
     models.push_back(sphere);
+    // Bushes* bushes = new Bushes();
+    // models.push_back(bushes);
+    // SuziFlat* suzi = new SuziFlat();
+    // models.push_back(suzi);
+    // float a[] = {
+    //     -.5f, -.5f, .5f, 1, 0, 1,
+    //     -.5f, .5f, .5f, 0, 1, 1,
+    //     .5f, .5f, .5f, 0, 0, 1};
+    // Triangle *triangle = new Triangle(a);
+    // models.push_back(triangle);
 }
 
 void Application::Run()
 {
+    // glEnable(GL_DEPTH_TEST);
+
+    glm::mat4 M = glm::mat4(1.0f); // construct identity matrix
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        for (Model* model : models)
+        for (Model *model : models)
         {
-            Shader* shader;
+            Shader *shader;
             shader = shaders[0];
-            model->Draw(shader, glm::vec4(1.0f));
+            model->Draw(shader, M);
         }
 
         // update other events like input handling
         glfwPollEvents();
         // put the stuff we’ve been drawing onto the display
         glfwSwapBuffers(window);
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR)
+        {
+            std::cerr << "OpenGL error: " << error << std::endl;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 
 
-void SuziSmooth::Draw(Shader * shader, glm::vec4 transformation)
+void SuziSmooth::Draw(Shader * shader, glm::mat4 transformation)
 {
     Model::Draw(shader, transformation);
     glDrawArrays(GL_TRIANGLES, 0, 17424);

@@ -16,14 +16,14 @@ void Model::BindVAO()
         glBindVertexArray(this->vao);
 }
 
-void Model::Draw(Shader *shader, glm::vec4 transformation)
+void Model::Draw(Shader *shader, glm::mat4 transformation)
 {
     if (!shader)
     {
         fputs("Model: shader not found", stderr);
         throw std::runtime_error("shader not found");
     }
-    shader->UseProgram();
+    shader->UseProgram(transformation);
 
     BindVAO();
     BindVBO();

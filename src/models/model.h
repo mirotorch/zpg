@@ -12,7 +12,7 @@ float* ColoredPointArray(Point &point, Color &color);
 
 class Model {
 public:
-    virtual void Draw(Shader *shader, glm::vec4 transformation) = 0;
+    virtual void Draw(Shader *shader, glm::mat4 transformation) = 0;
     ~Model();
 protected:
     // Model(const void* data, int size);
