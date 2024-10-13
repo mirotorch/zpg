@@ -38,13 +38,13 @@ Application::~Application()
 
 void Application::CreateScenes()
 {
-    std::unique_ptr<Scene> triangle(new TestScene(shader_path, 800, 600, "ZPG"));
-    triangle->CreateDrawableObjects();
-    scenes.push_back(std::move(triangle));
+    std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
+    forest->CreateDrawableObjects();
+    scenes.push_back(std::move(forest));
 
-    std::unique_ptr<Scene> triangle2(new TestScene(shader_path, 800, 600, "ZPG2"));
-    triangle2->CreateDrawableObjects();
-    scenes.push_back(std::move(triangle2));
+    std::unique_ptr<Scene> sphere(new SphereScene(shader_path, 800, 600, "sphere"));
+    sphere->CreateDrawableObjects();
+    scenes.push_back(std::move(sphere));
 }
 
 void Application::Run()
