@@ -59,14 +59,14 @@ Shader::Shader(const char *vertex_path, const char *fragment_path)
     model_transform = glGetUniformLocation(this->shader_program, "modelMatrix");
 }
 
-void Shader::UseProgram(glm::mat4 M)
+void Shader::UseProgram(glm::mat4 transformation)
 {
     // GLint current_program;
     // glGetIntegerv(GL_CURRENT_PROGRAM, &current_program);
     // if (current_program != this->shader_program)
     // {
         glUseProgram(this->shader_program);
-        glUniformMatrix4fv(model_transform, 1, GL_FALSE, &M[0][0]);
+        glUniformMatrix4fv(model_transform, 1, GL_FALSE, &transformation[0][0]);
     // }
 }
 

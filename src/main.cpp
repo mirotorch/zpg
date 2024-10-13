@@ -2,11 +2,10 @@
 
 int main() 
 {
-    Application* app = new Application(800, 600, "ZPG");
+    Application* app = new Application();
 
-    app->CreateShaders();
-    app->CreateModels();
-
+    app->CreateScenes();
+    app->PrintInfo();
     app->Run();
 
     delete app;

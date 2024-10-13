@@ -21,7 +21,7 @@ private:
     void CheckCompileStatus(const char* shader_path, GLuint id);
 public:
     Shader(const char *vertex_path, const char *fragment_path);
-    void UseProgram(glm::mat4 M); 
+    void UseProgram(glm::mat4 transformation); 
     ~Shader();
 };
 

@@ -1,26 +1,21 @@
 #ifndef APPLICATION
 #define APPLICATION
 
-#include "models/triangle.h"
-#include "models/rectangle.h"
-#include "models/sphere.h"
-#include "models/bushes.h"
-#include "models/suzi_flat.h"
-#include "models/tree.h"
+#include "scenes/testScene.hpp"
+#include "shaderFactory.h"
 #include <vector>
+#include <memory>
 
 class Application
 {
 private:
-    std::vector<Model*> models;
-    std::vector<Shader*> shaders;
-    GLFWwindow* window;
-    
+    std::vector<std::unique_ptr<Scene>> scenes;
+    ShaderFactory* shader_factory;
     static void error_callback(int error, const char* description);
 public:
-    Application(int width, int height, const char* title);
-    void CreateShaders();
-    void CreateModels();
+    void PrintInfo();
+    Application();
+    void CreateScenes();
     void Run();
     ~Application();
 };
