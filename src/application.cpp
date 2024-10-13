@@ -5,30 +5,8 @@ void Application::error_callback(int error, const char *description)
     fputs(description, stderr);
 }
 
-Application::Application(int width, int height, const char *title)
+void Application::PrintInfo()
 {
-    if (!glfwInit())
-    {
-        fprintf(stderr, "ERROR: could not start GLFW3\n");
-        exit(EXIT_FAILURE);
-    }
-    glfwSetErrorCallback(error_callback);
-
-    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
-    if (!this->window)
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    // start GLEW extension handler
-    glewExperimental = GL_TRUE;
-    glewInit();
-
-    // get version info
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
     printf("Using GLEW %s\n", glewGetString(GLEW_VERSION));
     printf("Vendor %s\n", glGetString(GL_VENDOR));
@@ -37,86 +15,57 @@ Application::Application(int width, int height, const char *title)
     int major, minor, revision;
     glfwGetVersion(&major, &minor, &revision);
     printf("Using GLFW %i.%i.%i\n", major, minor, revision);
+}
 
-    int w, h;
-    glfwGetFramebufferSize(window, &w, &h);
-    float ratio = w / (float)h;
-    glViewport(0, 0, w, h);
+Application::Application()
+{
+    if (!glfwInit())
+    {
+        fprintf(stderr, "ERROR: could not start GLFW3\n");
+        exit(EXIT_FAILURE);
+    }
+    glfwSetErrorCallback(error_callback);
+
 }
 
 Application::~Application()
 {
-    glfwDestroyWindow(this->window);
-
-    for (Model *model : this->models)
-    {
-        delete model;
-    }
-
-    for (Shader *shader : this->shaders)
-    {
-        delete shader;
-    }
-
+    scenes.clear(); 
     glfwTerminate();
     exit(EXIT_SUCCESS);
 }
 
-void Application::CreateShaders()
+
+void Application::CreateScenes()
 {
-    try
-    {
-        Shader *triangle_shader = new Shader("shaders/triangle_v.glsl", "shaders/triangle_f.glsl");
-        shaders.push_back(triangle_shader);
+    std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
+    forest->CreateDrawableObjects();
+    scenes.push_back(std::move(forest));
 
-        Shader *rectangle_shader = new Shader("shaders/triangle_v.glsl", "shaders/rectangle_f.glsl");
-        shaders.push_back(rectangle_shader);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        glfwDestroyWindow(window);
-        glfwTerminate();
-        exit(EXIT_SUCCESS);
-    }
-}
-
-void Application::CreateModels()
-{
-    Triangle* test = new Triangle(
-        Point(-0.2f, -0.3f, 0.0f),
-        Point(-0.2f, -0.7f, 0.0f),
-        Point(-0.4f, -0.4f, 0.0f)
-    );
-    models.push_back(test);
-
-    Rectangle* square = new Rectangle(
-        Point(0.0f, 0.0f, 0.0f),
-        Point(0.9f, 0.9f, 0.0f)
-    );
-    models.push_back(square);
+    std::unique_ptr<Scene> sphere(new SphereScene(shader_path, 800, 600, "sphere"));
+    sphere->CreateDrawableObjects();
+    scenes.push_back(std::move(sphere));
 }
 
 void Application::Run()
 {
-    while (!glfwWindowShouldClose(window))
+    glEnable(GL_DEPTH_TEST);
+
+    while (!scenes.empty())
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        for (Model* model : models)
+        for (auto it = scenes.begin(); it != scenes.end();)
         {
-            Shader* shader;
-            if (dynamic_cast<Triangle*>(model))
-                shader = shaders[0];
+            Scene *scene = it->get();
+            if (scene->Draw() != 0)
+            {
+                it = scenes.erase(it);
+            }
             else
-                shader = shaders[1];
-
-            model->Draw(shader, glm::vec4(1.0f));
+            {
+                ++it;
+            }
         }
-
         // update other events like input handling
         glfwPollEvents();
-        // put the stuff we’ve been drawing onto the display
-        glfwSwapBuffers(window);
     }
 }
