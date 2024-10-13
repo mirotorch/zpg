@@ -27,7 +27,7 @@ protected:
     ShaderFactory* shader_factory;
     virtual void UpdateTransformations() = 0;
 public:
-    Scene(ShaderFactory* shader_factory, int width, int height, const char* title);
+    Scene(std::string shader_path, int width, int height, const char* title);
     void SetAsCurrent();
     virtual void CreateDrawableObjects() = 0;
     int Draw();

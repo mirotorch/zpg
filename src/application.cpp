@@ -26,13 +26,11 @@ Application::Application()
     }
     glfwSetErrorCallback(error_callback);
 
-    shader_factory = new ShaderFactory("shaders/");
 }
 
 Application::~Application()
 {
     scenes.clear(); 
-    delete shader_factory;
     glfwTerminate();
     exit(EXIT_SUCCESS);
 }
@@ -40,11 +38,11 @@ Application::~Application()
 
 void Application::CreateScenes()
 {
-    std::unique_ptr<Scene> triangle(new TestScene(shader_factory, 800, 600, "ZPG"));
+    std::unique_ptr<Scene> triangle(new TestScene(shader_path, 800, 600, "ZPG"));
     triangle->CreateDrawableObjects();
     scenes.push_back(std::move(triangle));
 
-    std::unique_ptr<Scene> triangle2(new TestScene(shader_factory, 800, 600, "ZPG2"));
+    std::unique_ptr<Scene> triangle2(new TestScene(shader_path, 800, 600, "ZPG2"));
     triangle2->CreateDrawableObjects();
     scenes.push_back(std::move(triangle2));
 }

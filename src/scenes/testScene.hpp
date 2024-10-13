@@ -20,8 +20,8 @@ class TestScene : public Scene
         drawable_objects.push_back(do_triangle);
     }
 public:
-    TestScene(ShaderFactory* shader_factory, int width, int height, const char* title) 
-        : Scene(shader_factory, width, height, title)
+    TestScene(std::string shader_path, int width, int height, const char* title) 
+        : Scene(shader_path, width, height, title)
     {
         
     }

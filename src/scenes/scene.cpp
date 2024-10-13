@@ -1,8 +1,8 @@
 #include "scene.h"
 
-Scene::Scene(ShaderFactory *shader_factory, int width, int height, const char *title)
+Scene::Scene(std::string shader_path, int width, int height, const char *title)
 {
-    this->shader_factory = shader_factory;
+    shader_factory = new ShaderFactory(shader_path);
 
     this->window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!this->window)
@@ -37,6 +37,7 @@ Scene::~Scene()
         delete drawable->model;
     }
     drawable_objects.clear();
+    delete shader_factory;
     glfwDestroyWindow(this->window);
 }
 

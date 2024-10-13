@@ -10,7 +10,7 @@ class Application
 {
 private:
     std::vector<std::unique_ptr<Scene>> scenes;
-    ShaderFactory* shader_factory;
+    const std::string shader_path = "shaders/";
     static void error_callback(int error, const char* description);
 public:
     void PrintInfo();
