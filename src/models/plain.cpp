@@ -1,13 +1,5 @@
 #include "plain.h"
 
-
-
-void Plain::Draw(Shader * shader, glm::mat4 transformation)
-{
-    Model::Draw(shader, transformation);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-}
-
 Plain::Plain()
 {
     glGenBuffers(1, &this->vbo); 
@@ -20,4 +12,6 @@ Plain::Plain()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+
+    triangle_count = 36;
 }

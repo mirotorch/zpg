@@ -18,7 +18,6 @@
 class Plain : public Model
 {
 public:
-    void Draw(Shader *shader, glm::mat4 transformation) override;
     Plain();
 };
 

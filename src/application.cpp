@@ -42,15 +42,13 @@ void Application::CreateScenes()
     forest->CreateDrawableObjects();
     scenes.push_back(std::move(forest));
 
-    std::unique_ptr<Scene> sphere(new SphereScene(shader_path, 800, 600, "sphere"));
-    sphere->CreateDrawableObjects();
-    scenes.push_back(std::move(sphere));
+    // std::unique_ptr<Scene> sphere(new SphereScene(shader_path, 800, 600, "sphere"));
+    // sphere->CreateDrawableObjects();
+    // scenes.push_back(std::move(sphere));
 }
 
 void Application::Run()
 {
-    glEnable(GL_DEPTH_TEST);
-
     while (!scenes.empty())
     {
         for (auto it = scenes.begin(); it != scenes.end();)

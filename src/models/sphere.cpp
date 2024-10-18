@@ -1,11 +1,5 @@
 #include "sphere.h"
 
-void Sphere::Draw(Shader *shader, glm::mat4 transformation)
-{
-    Model::Draw(shader, transformation);
-    glDrawArrays(GL_TRIANGLES, 0, 17280);
-}
-
 Sphere::Sphere()
 {
     glGenBuffers(1, &this->vbo); 
@@ -18,4 +12,6 @@ Sphere::Sphere()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+
+    triangle_count = 17280;
 }

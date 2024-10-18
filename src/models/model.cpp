@@ -16,17 +16,9 @@ void Model::BindVAO()
         glBindVertexArray(this->vao);
 }
 
-void Model::Draw(Shader *shader, glm::mat4 transformation)
+int Model::GetTriangleCount()
 {
-    if (!shader)
-    {
-        fputs("Model: shader not found", stderr);
-        throw std::runtime_error("shader not found");
-    }
-    shader->UseProgram(transformation);
-
-    BindVAO();
-    BindVBO();
+    return triangle_count;
 }
 
 Model::~Model()

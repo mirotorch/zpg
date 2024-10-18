@@ -18,7 +18,6 @@
 class Bushes : public Model
 {
 public:
-    void Draw(Shader *shader, glm::mat4 transformation) override;
     Bushes();
 };
 

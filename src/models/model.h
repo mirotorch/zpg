@@ -1,7 +1,7 @@
 #ifndef MODEL
 #define MODEL
 
-#include "../shader.h"      
+#include "../shaderProgram.h"      
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
 
@@ -12,14 +12,15 @@ float* ColoredPointArray(Point &point, Color &color);
 
 class Model {
 public:
-    virtual void Draw(Shader *shader, glm::mat4 transformation) = 0;
     ~Model();
 protected:
-    // Model(const void* data, int size);
     GLuint vbo;
     GLuint vao;
+    int triangle_count;
+public:
     void BindVBO();
     void BindVAO();
+    int GetTriangleCount();
 };
 
 #endif

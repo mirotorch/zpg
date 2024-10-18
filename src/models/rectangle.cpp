@@ -1,12 +1,5 @@
 #include "rectangle.h"
 
-
-void Rectangle::Draw(Shader *shader, glm::mat4 transformation)
-{
-    Model::Draw(shader, transformation);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-}
-
 Rectangle::Rectangle(Point bottomLeft, Point topRight)
 {
     float data[18] = {
@@ -27,4 +20,6 @@ Rectangle::Rectangle(Point bottomLeft, Point topRight)
     glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid *)0);
+
+    triangle_count = 6;
 }

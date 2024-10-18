@@ -23,6 +23,8 @@ Scene::Scene(std::string shader_path, int width, int height, const char *title)
     glfwGetFramebufferSize(window, &w, &h);
     float ratio = w / (float)h;
     glViewport(0, 0, w, h);
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Scene::SetAsCurrent()
@@ -34,7 +36,7 @@ Scene::~Scene()
 {
     for (const auto& drawable : drawable_objects)
     {
-        delete drawable->model;
+        delete drawable;
     }
     drawable_objects.clear();
     delete shader_factory;

@@ -1,11 +1,5 @@
 #include "triangle.h"
 
-void Triangle::Draw(Shader* shader, glm::mat4 transformation)
-{
-    Model::Draw(shader, transformation);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-}
-
 Triangle::Triangle(Point point_a, Point point_b, Point point_c)
 {
     float data[9] = 
@@ -24,6 +18,7 @@ Triangle::Triangle(Point point_a, Point point_b, Point point_c)
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid *)0);
 
+    triangle_count = 3;
 }
 
 Triangle::Triangle(float pos_normale[18])
@@ -38,4 +33,6 @@ Triangle::Triangle(float pos_normale[18])
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+
+    triangle_count = 3;
 }
