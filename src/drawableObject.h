@@ -10,7 +10,7 @@ public:
     ShaderProgram* shader;
     Transformation* t_model;
     Transformation* t_view;
-    Transformation* t_position;
+    Transformation* t_projection;
     void Draw();
     ~DrawableObject();
 };

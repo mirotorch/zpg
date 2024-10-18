@@ -10,10 +10,10 @@ void DrawableObject::Draw()
     glm::mat4 m_view = glm::mat4(1.0f);
     if (t_view) m_view = t_view->apply(m_view);
 
-    glm::mat4 m_position = glm::mat4(1.0f);
-    if (t_position) m_position = t_position->apply(m_position);
+    glm::mat4 m_projection = glm::mat4(1.0f);
+    if (t_projection) m_projection = t_projection->apply(m_projection);
 
-    shader->SetMatrixes(m_model, m_view, m_position);
+    shader->SetMatrixes(m_model, m_view, m_projection);
 
     model->BindVBO();
     model->BindVAO();
@@ -25,6 +25,6 @@ DrawableObject::~DrawableObject()
 {
     delete t_model;
     delete t_view;
-    delete t_position;
+    delete t_projection;
     delete model;
 }

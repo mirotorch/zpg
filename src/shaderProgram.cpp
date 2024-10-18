@@ -57,7 +57,7 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     glDeleteShader(fragment_shader);
 
     model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
-    position_matrix = glGetUniformLocation(this->shader_program, "positionMatrix");
+    projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
 }
 
@@ -71,13 +71,13 @@ void ShaderProgram::UseProgram()
     }
 }
 
-void ShaderProgram::SetMatrixes(glm::mat4 model, glm::mat4 view, glm::mat4 position)
+void ShaderProgram::SetMatrixes(glm::mat4 model, glm::mat4 view, glm::mat4 projection)
 {
     UseProgram();
 
     glUniformMatrix4fv(model_matrix, 1, GL_FALSE, &model[0][0]);
     glUniformMatrix4fv(view_matrix, 1, GL_FALSE, &view[0][0]);
-    glUniformMatrix4fv(position_matrix, 1, GL_FALSE, &position[0][0]);
+    glUniformMatrix4fv(projection_matrix, 1, GL_FALSE, &projection[0][0]);
 }
 
 void ShaderProgram::CheckCompileStatus(const char* shader_path, GLuint id)
