@@ -27,6 +27,26 @@ Scene::Scene(std::string shader_path, int width, int height, const char *title)
     glEnable(GL_DEPTH_TEST);
 }
 
+Scene::Scene(std::string shader_path, GLFWwindow *window)
+{
+    this->window = window;
+    shader_factory = new ShaderFactory(shader_path);
+
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
+
+    // start GLEW extension handler
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    int w, h;
+    glfwGetFramebufferSize(window, &w, &h);
+    float ratio = w / (float)h;
+    glViewport(0, 0, w, h);
+
+    glEnable(GL_DEPTH_TEST);
+}
+
 void Scene::SetAsCurrent()
 {
     glfwMakeContextCurrent(window);

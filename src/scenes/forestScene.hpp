@@ -1,8 +1,9 @@
 #pragma once
 
 #include "scene.h"
-#include "../models/tree.h"
 #include "../models/bushes.h"
+#include "../models/tree.h"
+
 #include "glm/gtc/matrix_transform.hpp"
 
 class ForestScene : public Scene
@@ -14,7 +15,8 @@ class ForestScene : public Scene
     void CreateTree(Transformation* t)
     {
         auto drawable = new DrawableObject();
-        drawable->model = new Tree();
+        size_t size = sizeof(tree) / sizeof(float);
+        drawable->model = new Model(tree, size);
         drawable->shader = shader_factory->GetShader("camera_v", "normale_f");
         drawable->t_model = t;
         drawable_objects.push_back(drawable);
@@ -23,8 +25,9 @@ class ForestScene : public Scene
     void CreateBushes(Transformation* t)
     {
         auto drawable = new DrawableObject();
-        drawable->model = new Bushes();
-        drawable->shader = shader_factory->GetShader("camera_v", "green_f");
+        size_t size = sizeof(bushes) / sizeof(float);
+        drawable->model = new Model(bushes, size);
+        drawable->shader = shader_factory->GetShader("camera_v", "normale_f");
         drawable->t_model = t;
         drawable_objects.push_back(drawable);
     }
@@ -34,13 +37,13 @@ class ForestScene : public Scene
         SetAsCurrent();
 
         CompoundTransformation* ct1 = new CompoundTransformation(std::vector<Transformation*>({
-            new Translation(glm::vec3(-0.8f, -1, 0)), 
+            new Translation(glm::vec3(-0.6f, -1, 0)), 
             new Scaling(glm::vec3(0.2f, 0.2f, 0.2f))
         }));
         CreateTree(ct1);
 
         CompoundTransformation* ct2 = new CompoundTransformation(std::vector<Transformation*>({
-            new Translation(glm::vec3(0, -1, 0)), 
+            new Translation(glm::vec3(0.2f, -1, 0)), 
             new Scaling(glm::vec3(0.2f, 0.2f, 0.2f)),
             new Rotation(glm::radians(60.0f), glm::vec3(0,1,0))
         }));

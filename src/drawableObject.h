@@ -1,6 +1,8 @@
 #pragma once
-#include "models/model.h"
+
+#include "model.h"
 #include "transformation.h"
+#include "shaderProgram.h"
 
 
 class DrawableObject

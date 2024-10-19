@@ -11,16 +11,6 @@
  * @year 2023
  **/
 
-#pragma once
-
-#include "model.h"
-
-class Sphere : public Model
-{
-public:
-    Sphere();
-};
-
 
 const float sphere[17280] = {
 -0.831470f , -0.555570f , 0.000000f , -0.833338f , -0.552751f , 0.000000f , 

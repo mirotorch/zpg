@@ -11,16 +11,6 @@
  * @year 2023
  **/
 
-#pragma once
-
-#include "model.h"
-
-class Bushes : public Model
-{
-public:
-    Bushes();
-};
-
 
 const float bushes[] = {
    -0.010f , -0.001f , 0.010f , -0.760f , 0.489f , 0.429f ,
