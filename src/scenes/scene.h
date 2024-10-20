@@ -19,8 +19,10 @@ protected:
     Camera* camera;
     virtual void UpdateTransformations() = 0;
     virtual void HandleKeyboardInput(int key, int scancode, int action, int mods) = 0;
+    virtual void HandleMouseInput(double x_pos, double y_pos) = 0;
 public:
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void MouseCallback(GLFWwindow* window, double x_pos, double y_pos);
     Scene(std::string shader_path, int width, int height, const char* title);
     Scene(std::string shader_path, GLFWwindow* window);
     void SetAsCurrent();

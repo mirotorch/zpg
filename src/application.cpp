@@ -35,7 +35,6 @@ Application::~Application()
     exit(EXIT_SUCCESS);
 }
 
-
 void Application::CreateScenes()
 {
     std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));

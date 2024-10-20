@@ -26,15 +26,23 @@ void Scene::Init(std::string title, std::string shader_path)
 
     glEnable(GL_DEPTH_TEST);
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
 
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, KeyCallback);
+    glfwSetCursorPosCallback(window, MouseCallback);
 }
 
 void Scene::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
     if (scene) scene->HandleKeyboardInput(key, scancode, action, mods);
+}
+
+void Scene::MouseCallback(GLFWwindow *window, double xpos, double ypos)
+{
+    Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
+    if (scene) scene->HandleMouseInput(xpos, ypos);
 }
 
 Scene::Scene(std::string shader_path, int width, int height, const char *title)

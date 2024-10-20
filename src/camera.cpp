@@ -37,9 +37,10 @@ void Camera::UpdateVectors()
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     front.y = sin(glm::radians(pitch));
     front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    center = eye + glm::normalize(front);
+    center = glm::normalize(front);
 
-    up = glm::normalize(glm::cross(glm::cross(front, up), front));
+    // up = glm::normalize(glm::cross(glm::cross(front, up), front));
+    NotifyViewChanged();
 }
 
 void Camera::Rotate(float deltaYaw, float deltaPitch)

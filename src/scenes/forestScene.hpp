@@ -10,11 +10,16 @@
 class ForestScene : public Scene
 {
     void UpdateTransformations() override;
-    void CreateTree(Transformation* t);
-    void CreateBushes(Transformation* t);
     void CreateDrawableObjects() override;
+    void CreateForest(int trees, int bushes);
+    void SaveDrawableObject(Transformation* ct, bool is_tree);
     virtual void HandleKeyboardInput(int key, int scancode, int action, int mods);
+    virtual void HandleMouseInput(double xpos, double ypos);
 
+    float last_y;
+    float last_x;
+    bool first_mouse = true;
+    const float rotation_speed = 0.1f;
 public:
     ForestScene(std::string shader_path, int width, int height, const char *title);
 };
