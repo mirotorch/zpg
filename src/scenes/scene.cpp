@@ -1,10 +1,10 @@
 #include "scene.h"
 
-Scene::Scene(std::string shader_path, int width, int height, const char *title)
+void Scene::Init(std::string title, std::string shader_path)
 {
-    shader_factory = new ShaderFactory(shader_path);
+    camera = new Camera();
+    shader_factory = new ShaderFactory(shader_path, camera);
 
-    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!this->window)
     {
         std::cerr << "Window " << title << " failed to initialize" << std::endl;
@@ -25,26 +25,28 @@ Scene::Scene(std::string shader_path, int width, int height, const char *title)
     glViewport(0, 0, w, h);
 
     glEnable(GL_DEPTH_TEST);
+
+
+    glfwSetWindowUserPointer(window, this);
+    glfwSetKeyCallback(window, KeyCallback);
+}
+
+void Scene::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
+    if (scene) scene->HandleKeyboardInput(key, scancode, action, mods);
+}
+
+Scene::Scene(std::string shader_path, int width, int height, const char *title)
+{
+    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
+    Init(title, shader_path);
 }
 
 Scene::Scene(std::string shader_path, GLFWwindow *window)
 {
     this->window = window;
-    shader_factory = new ShaderFactory(shader_path);
-
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    // start GLEW extension handler
-    glewExperimental = GL_TRUE;
-    glewInit();
-
-    int w, h;
-    glfwGetFramebufferSize(window, &w, &h);
-    float ratio = w / (float)h;
-    glViewport(0, 0, w, h);
-
-    glEnable(GL_DEPTH_TEST);
+    Init("", shader_path);
 }
 
 void Scene::SetAsCurrent()
@@ -60,6 +62,7 @@ Scene::~Scene()
     }
     drawable_objects.clear();
     delete shader_factory;
+    delete camera;
     glfwDestroyWindow(this->window);
 }
 

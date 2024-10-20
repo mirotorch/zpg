@@ -3,9 +3,9 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "ICameraObserver.hpp"
 
 // file IO
 #include <iostream>
@@ -13,7 +13,7 @@
 #include <sstream>
 #include <string>
 
-class ShaderProgram
+class ShaderProgram : public ICameraObserver
 {
 private:
     GLuint shader_program = 0;
@@ -25,8 +25,10 @@ private:
 public:
     ShaderProgram(const char *vertex_path, const char *fragment_path);
     void UseProgram(); 
-    void SetMatrixes(glm::mat4 model, glm::mat4 view, glm::mat4 projection);
+    void UpdateModel(glm::mat4 model);
+    virtual void UpdateView(glm::mat4 view);
+    virtual void UpdateProjection(glm::mat4 projection);
     ~ShaderProgram();
-};
+};  
 
 #endif

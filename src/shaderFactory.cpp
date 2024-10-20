@@ -1,8 +1,9 @@
 #include "shaderFactory.h"
 
-ShaderFactory::ShaderFactory(std::string shader_dir)
+ShaderFactory::ShaderFactory(std::string shader_dir, Camera* camera)
 {
     this->shader_dir = shader_dir;
+    this->camera = camera;
 }
 
 ShaderFactory::~ShaderFactory()
@@ -30,6 +31,7 @@ ShaderProgram* ShaderFactory::GetShader(std::string vertex_name, std::string fra
         std::string fragment_path = shader_dir + fragment_name + ".glsl";
         ShaderProgram* shader = new ShaderProgram(vertex_path.c_str(), fragment_path.c_str());
         shader_map[key_string] = shader;
+        camera->Subscribe(shader);
         return shader;
     }
 }

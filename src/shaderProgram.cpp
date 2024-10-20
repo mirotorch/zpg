@@ -71,16 +71,26 @@ void ShaderProgram::UseProgram()
     }
 }
 
-void ShaderProgram::SetMatrixes(glm::mat4 model, glm::mat4 view, glm::mat4 projection)
+void ShaderProgram::UpdateModel(glm::mat4 model)
 {
     UseProgram();
-
     glUniformMatrix4fv(model_matrix, 1, GL_FALSE, &model[0][0]);
+}
+
+
+void ShaderProgram::UpdateView(glm::mat4 view)
+{
+    this->UseProgram();
     glUniformMatrix4fv(view_matrix, 1, GL_FALSE, &view[0][0]);
+}
+
+void ShaderProgram::UpdateProjection(glm::mat4 projection)
+{
+    this->UseProgram();
     glUniformMatrix4fv(projection_matrix, 1, GL_FALSE, &projection[0][0]);
 }
 
-void ShaderProgram::CheckCompileStatus(const char* shader_path, GLuint id)
+void ShaderProgram::CheckCompileStatus(const char *shader_path, GLuint id)
 {
     GLint success;
     glGetShaderiv(id, GL_COMPILE_STATUS, &success);
@@ -89,7 +99,8 @@ void ShaderProgram::CheckCompileStatus(const char* shader_path, GLuint id)
         GLchar infoLog[512];
         glGetShaderInfoLog(id, 512, NULL, infoLog);
         std::cout << "Shader compilation failure\n"
-                  << infoLog << std::endl << shader_path << std::endl;
+                  << infoLog << std::endl
+                  << shader_path << std::endl;
         throw std::runtime_error("Shader compilation failure");
     }
 }
