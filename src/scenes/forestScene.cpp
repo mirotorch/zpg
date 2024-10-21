@@ -47,7 +47,7 @@ void ForestScene::SaveDrawableObject(Transformation* ct, bool is_tree)
         size_t size = sizeof(bushes) / sizeof(float);
         drawable->model = new Model(bushes, size);
     }
-    drawable->shader = shader_factory->GetShader("camera_v", "normale_f");
+    drawable->shader = shader_factory->GetShader("lambert_v", "lambert_f");
     drawable->t_model = ct;
     drawable_objects.push_back(drawable);
 }
@@ -55,8 +55,11 @@ void ForestScene::SaveDrawableObject(Transformation* ct, bool is_tree)
 void ForestScene::CreateDrawableObjects()
 {
     SetAsCurrent();
-
-    CreateForest(40, 20);
+        CompoundTransformation* ct = new CompoundTransformation(std::vector<Transformation*>
+        {
+        });
+        SaveDrawableObject(ct, true);
+    // CreateForest(40, 20);
 }
 
 void ForestScene::HandleKeyboardInput(int key, int scancode, int action, int mods)
