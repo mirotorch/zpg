@@ -1,10 +1,10 @@
 #include "scene.h"
 
-Scene::Scene(std::string shader_path, int width, int height, const char *title)
+void Scene::Init(std::string title, std::string shader_path)
 {
-    shader_factory = new ShaderFactory(shader_path);
+    camera = new Camera();
+    shader_factory = new ShaderFactory(shader_path, camera);
 
-    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!this->window)
     {
         std::cerr << "Window " << title << " failed to initialize" << std::endl;
@@ -23,6 +23,38 @@ Scene::Scene(std::string shader_path, int width, int height, const char *title)
     glfwGetFramebufferSize(window, &w, &h);
     float ratio = w / (float)h;
     glViewport(0, 0, w, h);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
+
+    glfwSetWindowUserPointer(window, this);
+    glfwSetKeyCallback(window, KeyCallback);
+    glfwSetCursorPosCallback(window, MouseCallback);
+}
+
+void Scene::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
+    if (scene) scene->HandleKeyboardInput(key, scancode, action, mods);
+}
+
+void Scene::MouseCallback(GLFWwindow *window, double xpos, double ypos)
+{
+    Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
+    if (scene) scene->HandleMouseInput(xpos, ypos);
+}
+
+Scene::Scene(std::string shader_path, int width, int height, const char *title)
+{
+    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
+    Init(title, shader_path);
+}
+
+Scene::Scene(std::string shader_path, GLFWwindow *window)
+{
+    this->window = window;
+    Init("", shader_path);
 }
 
 void Scene::SetAsCurrent()
@@ -34,10 +66,11 @@ Scene::~Scene()
 {
     for (const auto& drawable : drawable_objects)
     {
-        delete drawable->model;
+        delete drawable;
     }
     drawable_objects.clear();
     delete shader_factory;
+    delete camera;
     glfwDestroyWindow(this->window);
 }
 

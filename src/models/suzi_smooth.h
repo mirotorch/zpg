@@ -10,16 +10,7 @@
  *
  * @year 2023
  **/
-#pragma once
 
-#include "model.h"
-
-class SuziSmooth : public Model 
-{
-public:
-    void Draw(Shader *shader, glm::mat4 transformation) override;
-    SuziSmooth();
-};
 
 const float suziSmooth[17424] = {
 0.468750f , 0.242187f , 0.757812f , 0.970580f , -0.015168f , 0.240181f ,
