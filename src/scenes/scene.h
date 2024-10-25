@@ -18,6 +18,7 @@ protected:
     ShaderFactory* shader_factory;
     Camera* camera;
     virtual void UpdateTransformations() = 0;
+    virtual void SetupCamera() = 0;
     virtual void HandleKeyboardInput(int key, int scancode, int action, int mods) = 0;
     virtual void HandleMouseInput(double x_pos, double y_pos) = 0;
 public:

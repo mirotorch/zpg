@@ -29,7 +29,7 @@ class Camera
     void NotifyProjectionChanged();
     void UpdateVectors();
   public:
-    Camera();
+    Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 up);
     void Rotate(float deltaYaw, float deltaPitch); 
 
     void Subscribe(ICameraObserver* listener);

@@ -1,8 +1,8 @@
 #ifndef APPLICATION
 #define APPLICATION
 
-#include "scenes/forestScene.hpp"
 #include "shaderFactory.h"
+#include "scenes/scene.h"
 #include <vector>
 #include <memory>
 

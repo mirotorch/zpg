@@ -11,10 +11,11 @@ class ForestScene : public Scene
 {
     void UpdateTransformations() override;
     void CreateDrawableObjects() override;
+    void SetupCamera() override;
     void CreateForest(int trees, int bushes);
     void SaveDrawableObject(Transformation* ct, bool is_tree);
-    virtual void HandleKeyboardInput(int key, int scancode, int action, int mods);
-    virtual void HandleMouseInput(double xpos, double ypos);
+    void HandleKeyboardInput(int key, int scancode, int action, int mods) override;
+    void HandleMouseInput(double xpos, double ypos) override;
 
     float last_y;
     float last_x;

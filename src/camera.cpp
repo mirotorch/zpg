@@ -21,11 +21,11 @@ void Camera::NotifyProjectionChanged()
     }
 }
 
-Camera::Camera()
+Camera::Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 {
-    eye = glm::vec3(0.0f, 0.0f, -2.0f);
-    center = glm::vec3(0.0f, 0.0f, 1.0f);
-    up = glm::vec3(0.0f, 1.0f, 0.0f);
+    this->eye = eye;
+    this->center = center;
+    this->up = up;
     projection = glm::mat4(1.0f);
     yaw = 0;
     pitch = 0;

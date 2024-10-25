@@ -1,4 +1,6 @@
 #include "application.h"
+#include "scenes/sphereScene.h"
+#include "scenes/forestScene.hpp"
 
 void Application::error_callback(int error, const char *description)
 {
@@ -37,9 +39,12 @@ Application::~Application()
 
 void Application::CreateScenes()
 {
-    std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
-    forest->CreateDrawableObjects();
-    scenes.push_back(std::move(forest));
+    // std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
+    // forest->CreateDrawableObjects();
+    // scenes.push_back(std::move(forest));
+    std::unique_ptr<Scene> spheres(new SphereScene(shader_path, 1400, 800, "spheres"));
+    spheres->CreateDrawableObjects();
+    scenes.push_back(std::move(spheres));
 }
 
 void Application::Run()

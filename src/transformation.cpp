@@ -31,8 +31,11 @@ glm::mat4 Scaling::apply(glm::mat4 mat)
     return glm::scale(mat, scale);
 }
 
+CompoundTransformation::CompoundTransformation()
+{
+}
 
-CompoundTransformation::CompoundTransformation(std::vector<Transformation*> transformations)
+CompoundTransformation::CompoundTransformation(std::vector<Transformation *> transformations)
 {
     this->transformations = transformations;
 }

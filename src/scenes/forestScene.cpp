@@ -40,15 +40,15 @@ void ForestScene::SaveDrawableObject(Transformation* ct, bool is_tree)
     if (is_tree) 
     {
         size_t size = sizeof(tree) / sizeof(float);
-        drawable->model = new Model(tree, size);
+        drawable->model = new Model(tree, size, 92814);
     }
     else
     {
         size_t size = sizeof(bushes) / sizeof(float);
-        drawable->model = new Model(bushes, size);
+        drawable->model = new Model(bushes, size, 92814);
     }
     drawable->shader = shader_factory->GetShader("lambert_v", "lambert_f");
-    drawable->t_model = ct;
+    drawable->transformation = ct;
     drawable_objects.push_back(drawable);
 }
 
@@ -60,6 +60,11 @@ void ForestScene::CreateDrawableObjects()
         });
         SaveDrawableObject(ct, true);
     // CreateForest(40, 20);
+}
+
+void ForestScene::SetupCamera() 
+{
+    this->camera = new Camera(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void ForestScene::HandleKeyboardInput(int key, int scancode, int action, int mods)
@@ -94,5 +99,7 @@ ForestScene::ForestScene(std::string shader_path, int width, int height, const c
 : Scene(shader_path, width, height, title)
 {
     // float aspect = width / (float)height;
+    SetupCamera();
+    shader_factory = new ShaderFactory(shader_path, camera);
     camera->SetupProjectionPerspective(1.0f, 1.0f, 100.0f);
 }

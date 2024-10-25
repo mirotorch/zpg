@@ -2,8 +2,6 @@
 
 void Scene::Init(std::string title, std::string shader_path)
 {
-    camera = new Camera();
-    shader_factory = new ShaderFactory(shader_path, camera);
 
     if (!this->window)
     {
