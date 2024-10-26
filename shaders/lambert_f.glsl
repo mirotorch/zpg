@@ -7,7 +7,7 @@ out vec4 fragColor;
 
 void main() 
 {
-    vec3 lightPosition = vec3(0.0, 0.0, 0.0);
+    vec3 lightPosition = vec3(0.0, 0.0, -5.0);
     vec4 lightColor = vec4(1.0,1.0,1.0, 1.0);
 
     vec3 lightDir = normalize(lightPosition - worldPos);

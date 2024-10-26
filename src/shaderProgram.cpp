@@ -56,6 +56,7 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
 
+    glUseProgram(this->shader_program);
     model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
@@ -114,5 +115,5 @@ ShaderProgram::~ShaderProgram()
 void ShaderProgram::UpdateViewVector(glm::vec3 view)
 {
     this->UseProgram();
-    glUniformMatrix4fv(view_vector, 1, GL_FALSE, &view[0]);
+    glUniform3f(view_vector, view[0], view[1], view[2]);
 }

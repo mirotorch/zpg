@@ -1,6 +1,8 @@
 #include "application.h"
 #include "scenes/sphereScene.h"
 #include "scenes/forestScene.hpp"
+#include "scenes/shadingTestScene.h"
+#include "scenes/suziScene.h"
 
 void Application::error_callback(int error, const char *description)
 {
@@ -39,12 +41,28 @@ Application::~Application()
 
 void Application::CreateScenes()
 {
-    std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
-    forest->CreateDrawableObjects();
-    scenes.push_back(std::move(forest));
+    // std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
+    // forest->CreateDrawableObjects();
+    // scenes.push_back(std::move(forest));
     // std::unique_ptr<Scene> spheres(new SphereScene(shader_path, 1400, 800, "spheres"));
     // spheres->CreateDrawableObjects();
     // scenes.push_back(std::move(spheres));
+
+    // std::unique_ptr<Scene> shading_l(new ShadingTestScene("lambert_f",shader_path, 1400, 700, "lambert"));
+    // shading_l->CreateDrawableObjects();
+    // scenes.push_back(std::move(shading_l));
+
+    // std::unique_ptr<Scene> shading_p(new ShadingTestScene("phong_f",shader_path, 1400, 700, "phong"));
+    // shading_p->CreateDrawableObjects();
+    // scenes.push_back(std::move(shading_p));
+
+    // std::unique_ptr<Scene> shading_b(new ShadingTestScene("blinn_f",shader_path, 1400, 700, "blinn"));
+    // shading_b->CreateDrawableObjects();
+    // scenes.push_back(std::move(shading_b));
+
+    std::unique_ptr<Scene> suzi(new SuziScene(shader_path, 1400, 700, "suzi"));
+    suzi->CreateDrawableObjects();
+    scenes.push_back(std::move(suzi));
 }
 
 void Application::Run()

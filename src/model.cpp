@@ -7,7 +7,7 @@ Model::Model(const float vertices[], size_t array_length, size_t vertices_count)
 
 Model::Model(std::vector<float> vertices, size_t vertices_count)
 {
-    this->vertices_count = vertices_count;//vertices.size();
+    this->vertices_count = vertices_count;
 
     glGenBuffers(1, &vbo); 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);

@@ -9,11 +9,11 @@ uniform vec3 viewVector;
 
 void main()
 {
-    vec3 lightPosition = vec3(0.0, 0.0, 0.0);
+    vec3 lightPosition = vec3(0.0, 0.0, -5.0);
     vec3 lightColor = vec3(1.0, 1.0, 1.0);
     vec3 objectColor = vec3(0.385, 0.647, 0.812);
-
     vec3 ambientStrength = vec3(0.1);
+
     vec3 ambient = ambientStrength * lightColor;
 
     vec3 norm = normalize(normal);
