@@ -59,6 +59,7 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
+    view_vector = glGetUniformLocation(this->shader_program, "viewVector");
 }
 
 void ShaderProgram::UseProgram()
@@ -78,13 +79,13 @@ void ShaderProgram::UpdateModel(glm::mat4 model)
 }
 
 
-void ShaderProgram::UpdateView(glm::mat4 view)
+void ShaderProgram::UpdateViewMatrix(glm::mat4 view)
 {
     this->UseProgram();
     glUniformMatrix4fv(view_matrix, 1, GL_FALSE, &view[0][0]);
 }
 
-void ShaderProgram::UpdateProjection(glm::mat4 projection)
+void ShaderProgram::UpdateProjectionMatrix(glm::mat4 projection)
 {
     this->UseProgram();
     glUniformMatrix4fv(projection_matrix, 1, GL_FALSE, &projection[0][0]);
@@ -108,4 +109,10 @@ void ShaderProgram::CheckCompileStatus(const char *shader_path, GLuint id)
 ShaderProgram::~ShaderProgram()
 {
     glDeleteProgram(this->shader_program);
+}
+
+void ShaderProgram::UpdateViewVector(glm::vec3 view)
+{
+    this->UseProgram();
+    glUniformMatrix4fv(view_vector, 1, GL_FALSE, &view[0]);
 }
