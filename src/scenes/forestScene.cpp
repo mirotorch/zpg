@@ -67,36 +67,9 @@ void ForestScene::SetupCamera()
     this->camera = new Camera(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-void ForestScene::HandleKeyboardInput(int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_W) camera->ToFront();
-    else if (key == GLFW_KEY_S) camera->ToBack();
-    else if (key == GLFW_KEY_A) camera->ToLeft();
-    else if (key == GLFW_KEY_D) camera->ToRight();
-}
-
-void ForestScene::HandleMouseInput(double x_pos, double y_pos)
-{
-    if (first_mouse) 
-    {
-        last_x = x_pos;
-        last_y = y_pos;
-        first_mouse = false;
-        return;
-    }
-
-    float xoffset = x_pos - last_x;
-    float yoffset = last_y - y_pos;
-
-    last_x = x_pos;
-    last_y = y_pos;
-
-    camera->Rotate(xoffset * rotation_speed, yoffset * rotation_speed); 
-}
-
 
 ForestScene::ForestScene(std::string shader_path, int width, int height, const char *title) 
-: Scene(shader_path, width, height, title)
+: DynamicScene(shader_path, width, height, title)
 {
     // float aspect = width / (float)height;
     SetupCamera();

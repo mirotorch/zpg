@@ -47,13 +47,6 @@ void SphereScene::SetupCamera()
     this->camera = new Camera(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-void SphereScene::HandleKeyboardInput(int key, int scancode, int action, int mods)
-{
-}
-
-void SphereScene::HandleMouseInput(double xpos, double ypos)
-{
-}
 
 SphereScene::SphereScene(std::string shader_path, int width, int height, const char *title)
 : Scene(shader_path, width, height, title)
