@@ -1,10 +1,6 @@
 #include "sphereScene.h"
 #include "../models/sphere.h"
 
-void SphereScene::UpdateTransformations()
-{
-}
-
 void SphereScene::CreateDrawableObjects()
 {
     std::vector<float> sphere_vertices(sphere, sphere + sizeof(sphere) / sizeof(float));
@@ -42,16 +38,9 @@ void SphereScene::CreateDrawableObjects()
     }
 }
 
-void SphereScene::SetupCamera()
-{
-    this->camera = new Camera(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-}
 
-
-SphereScene::SphereScene(std::string shader_path, int width, int height, const char *title)
-: Scene(shader_path, width, height, title)
+SphereScene::SphereScene(std::string shader_path, GLFWwindow* window)
+: Scene(shader_path, window)
 {
-    SetupCamera();
-    shader_factory = new ShaderFactory(shader_path, camera);
-    camera->SetupProjectionPerspective(width / (float)height, 1.0f, 100.0f);
+    SetupCamera(glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }

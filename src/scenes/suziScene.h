@@ -1,12 +1,10 @@
 #pragma once
 
-#include "dynamicScene.h"
+#include "scene.h"
 
-class SuziScene : public DynamicScene
+class SuziScene : public Scene
 {
-    void UpdateTransformations() override;
-    void CreateDrawableObjects() override;
-    void SetupCamera() override;
 public:
-    SuziScene(std::string shader_path, int width, int height, const char* title);
+    SuziScene(std::string shader_path, GLFWwindow* window);
+    void CreateDrawableObjects() override;
 };

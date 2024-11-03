@@ -1,10 +1,6 @@
 #include "shadingTestScene.h"
 #include "../models/sphere.h"
 
-void ShadingTestScene::UpdateTransformations()
-{
-}
-
 void ShadingTestScene::CreateDrawableObjects()
 {
     std::vector<float> sphere_vertices(sphere, sphere + sizeof(sphere) / sizeof(float));
@@ -16,17 +12,10 @@ void ShadingTestScene::CreateDrawableObjects()
     drawable_objects.push_back(dwo);
 }
 
-void ShadingTestScene::SetupCamera()
-{
-    this->camera = new Camera(glm::vec3(0.0f, 0.0f, -4.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-}
 
-
-ShadingTestScene::ShadingTestScene(std::string shader_type, std::string shader_path, int width, int height, const char *title)
-: Scene(shader_path, width, height, title)
+ShadingTestScene::ShadingTestScene(std::string shader_path, GLFWwindow* window, std::string shader_type)
+: Scene(shader_path, window)
 {
     this->shader_type = shader_type;
-    SetupCamera();
-    shader_factory = new ShaderFactory(shader_path, camera);
-    camera->SetupProjectionPerspective(width / (float)height, 1.0f, 100.0f);
+    SetupCamera(glm::vec3(0.0f, 0.0f, -4.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }

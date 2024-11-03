@@ -1,45 +1,19 @@
 #include "scene.h"
 
-void Scene::Init(std::string title, std::string shader_path)
+void Scene::SetupCamera(glm::vec3 x, glm::vec3 y, glm::vec3 z)
 {
-
-    if (!this->window)
-    {
-        std::cerr << "Window " << title << " failed to initialize" << std::endl;
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    // start GLEW extension handler
-    glewExperimental = GL_TRUE;
-    glewInit();
-
+    this->camera = new Camera(x, y, z);
     int w, h;
     glfwGetFramebufferSize(window, &w, &h);
     float ratio = w / (float)h;
-    glViewport(0, 0, w, h);
-
-    glEnable(GL_DEPTH_TEST);
-}
-
-Scene::Scene(std::string shader_path, int width, int height, const char *title)
-{
-    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
-    Init(title, shader_path);
+    camera->SetupProjectionPerspective(ratio, 1.0f, 100.0f);
+    shader_factory = new ShaderFactory(shader_path, camera);
 }
 
 Scene::Scene(std::string shader_path, GLFWwindow *window)
 {
     this->window = window;
-    Init("", shader_path);
-}
-
-void Scene::SetAsCurrent()
-{
-    glfwMakeContextCurrent(window);
+    this->shader_path = shader_path;
 }
 
 Scene::~Scene()
@@ -51,34 +25,39 @@ Scene::~Scene()
     drawable_objects.clear();
     delete shader_factory;
     delete camera;
-    glfwDestroyWindow(this->window);
 }
 
-int Scene::Draw()
+void Scene::Draw()
 {
-    SetAsCurrent();
-    if (!glfwWindowShouldClose(window))
+    for (const auto &drawable : drawable_objects)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        UpdateTransformations();
-
-        for (const auto& drawable : drawable_objects)
-        {
-            drawable->Draw();
-        }
-
-        // put the stuff we’ve been drawing onto the display
-        glfwSwapBuffers(window);
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR)
-        {
-            std::cerr << "OpenGL error: " << error << std::endl;
-        }
-        return error;
+        drawable->Draw();
     }
-    else
+}
+
+void Scene::HandleKeyboardInput(int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_W) camera->ToFront();
+    else if (key == GLFW_KEY_S) camera->ToBack();
+    else if (key == GLFW_KEY_A) camera->ToLeft();
+    else if (key == GLFW_KEY_D) camera->ToRight();
+}
+
+void Scene::HandleMouseInput(double x_pos, double y_pos)
+{
+    if (first_mouse) 
     {
-        return -1;
+        last_x = x_pos;
+        last_y = y_pos;
+        first_mouse = false;
+        return;
     }
+
+    float xoffset = x_pos - last_x;
+    float yoffset = last_y - y_pos;
+
+    last_x = x_pos;
+    last_y = y_pos;
+
+    camera->Rotate(xoffset * rotation_speed, yoffset * rotation_speed); 
 }

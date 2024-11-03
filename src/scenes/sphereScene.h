@@ -4,9 +4,7 @@
 
 class SphereScene : public Scene
 {
-    void UpdateTransformations() override;
-    void CreateDrawableObjects() override;
-    void SetupCamera() override;
 public:
-    SphereScene(std::string shader_path, int width, int height, const char* title);
+    SphereScene(std::string shader_path, GLFWwindow* window);
+    void CreateDrawableObjects() override;
 };

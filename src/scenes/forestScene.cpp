@@ -3,10 +3,6 @@
 #include <random>
 
 
-void ForestScene::UpdateTransformations()
-{
-}
-
 void ForestScene::CreateForest(int trees, int bushes)
 {
     std::random_device rd; 
@@ -54,7 +50,6 @@ void ForestScene::SaveDrawableObject(Transformation* ct, bool is_tree)
 
 void ForestScene::CreateDrawableObjects()
 {
-    SetAsCurrent();
     // CompoundTransformation* ct = new CompoundTransformation(std::vector<Transformation*>
     // {
     // });
@@ -62,17 +57,8 @@ void ForestScene::CreateDrawableObjects()
     CreateForest(40, 20);
 }
 
-void ForestScene::SetupCamera() 
+ForestScene::ForestScene(std::string shader_path, GLFWwindow* window) 
+: Scene(shader_path, window)
 {
-    this->camera = new Camera(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-}
-
-
-ForestScene::ForestScene(std::string shader_path, int width, int height, const char *title) 
-: DynamicScene(shader_path, width, height, title)
-{
-    // float aspect = width / (float)height;
-    SetupCamera();
-    shader_factory = new ShaderFactory(shader_path, camera);
-    camera->SetupProjectionPerspective(1.0f, 1.0f, 100.0f);
+    SetupCamera(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }

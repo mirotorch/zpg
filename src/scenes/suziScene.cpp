@@ -3,10 +3,6 @@
 #include "../models/suzi_smooth.h"
 #include "../models/gift.h"
 
-void SuziScene::UpdateTransformations()
-{
-}
-
 void SuziScene::CreateDrawableObjects()
 {
     std::vector<ShaderProgram*> programs = 
@@ -60,15 +56,10 @@ void SuziScene::CreateDrawableObjects()
     }
 }
 
-void SuziScene::SetupCamera()
-{
-    this->camera = new Camera(glm::vec3(0.0f, 0.0f, -8.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-}
 
-SuziScene::SuziScene(std::string shader_path, int width, int height, const char *title)
-: DynamicScene(shader_path, width, height, title)
+
+SuziScene::SuziScene(std::string shader_path, GLFWwindow* window)
+: Scene(shader_path, window)
 {
-    SetupCamera();
-    shader_factory = new ShaderFactory(shader_path, camera);
-    camera->SetupProjectionPerspective(width / (float)height, 1.0f, 100.0f);
+    SetupCamera(glm::vec3(0.0f, 0.0f, -8.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
