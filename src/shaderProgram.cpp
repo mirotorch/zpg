@@ -1,5 +1,6 @@
 #include "shaderProgram.h"
 
+
 std::string ShaderProgram::ReadGlsl(const char *path)
 {
     std::ifstream shader_file;
@@ -57,6 +58,16 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     glDeleteShader(fragment_shader);
 
     glUseProgram(this->shader_program);
+    model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
+    projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
+    view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
+    view_vector = glGetUniformLocation(this->shader_program, "viewVector");
+}
+
+ShaderProgram::ShaderProgram(GLuint id)
+{
+    this->shader_program = id;
+    glUseProgram(id);
     model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");

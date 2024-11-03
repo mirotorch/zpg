@@ -25,6 +25,7 @@ private:
     void CheckCompileStatus(const char* shader_path, GLuint id);
 public:
     ShaderProgram(const char *vertex_path, const char *fragment_path);
+    ShaderProgram(GLuint id);
     void UseProgram(); 
     void UpdateModel(glm::mat4 model);
     virtual void UpdateViewMatrix(glm::mat4 view);

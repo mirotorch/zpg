@@ -2,6 +2,7 @@
 #define SHADER_FACTORY
 
 #include "shaderProgram.h"
+#include "ShaderLoader.h"
 #include "camera.h"
 #include <iostream>
 #include <map>
@@ -13,6 +14,7 @@ private:
     std::string shader_dir;
     std::map<std::string, ShaderProgram*> shader_map;
     std::mutex map_mutex;
+    static ShaderLoader* shader_loader;
     Camera* camera;
 public:
     ShaderFactory(std::string shader_dir, Camera* camera);
