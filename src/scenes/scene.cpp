@@ -37,10 +37,10 @@ void Scene::Draw()
 
 void Scene::HandleKeyboardInput(int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_W && action == GLFW_PRESS) camera->ToFront();
-    else if (key == GLFW_KEY_S && action == GLFW_PRESS) camera->ToBack();
-    else if (key == GLFW_KEY_A && action == GLFW_PRESS) camera->ToLeft();
-    else if (key == GLFW_KEY_D && action == GLFW_PRESS) camera->ToRight();
+    if (key == GLFW_KEY_W && action != GLFW_RELEASE) camera->ToFront();
+    else if (key == GLFW_KEY_S && action != GLFW_RELEASE) camera->ToBack();
+    else if (key == GLFW_KEY_A && action != GLFW_RELEASE) camera->ToLeft();
+    else if (key == GLFW_KEY_D && action != GLFW_RELEASE) camera->ToRight();
 }
 
 void Scene::HandleMouseInput(double x_pos, double y_pos)

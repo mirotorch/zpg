@@ -14,4 +14,5 @@ class ForestScene : public Scene
 public:
     ForestScene(std::string shader_path, GLFWwindow* window);
     void CreateDrawableObjects() override;
+    void Draw() override;
 };

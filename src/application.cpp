@@ -35,10 +35,22 @@ void Application::PrintInfo()
 
 void Application::HandleKeyboardOutput(int key, int scancode, int action, int mods)
 {
+    if (key == GLFW_KEY_M && action == GLFW_PRESS)
+    {
+        if (glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
+        {
+            glfwSetInputMode(main_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        } 
+        else 
+        {
+            glfwSetInputMode(main_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+    }
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS && scenes.size() > 0)
     {
-        if (++active_scene_index >= scenes.size())
+        if (active_scene_index + 1 >= scenes.size())
             active_scene_index = 0;
+        else active_scene_index++;
     }
     else
     {
@@ -49,7 +61,7 @@ void Application::HandleKeyboardOutput(int key, int scancode, int action, int mo
 
 void Application::HandleMouseOutput(double x_pos, double y_pos)
 {
-    if (active_scene_index >= 0)
+    if (glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED && active_scene_index >= 0)
         scenes[active_scene_index]->HandleMouseInput(x_pos, y_pos);
 }
 
@@ -84,7 +96,6 @@ Application::Application()
 
     glEnable(GL_DEPTH_TEST);
 
-    glfwSetInputMode(main_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetWindowUserPointer(main_window, this);
     glfwSetKeyCallback(main_window, KeyCallback);
     glfwSetCursorPosCallback(main_window, MouseCallback);
@@ -105,10 +116,15 @@ void Application::CreateScenes()
     forest->CreateDrawableObjects();
     scenes.push_back(forest);
 
-    SuziScene *suzi = new SuziScene(shader_path, main_window);
-    suzi->CreateDrawableObjects();
-    scenes.push_back(suzi);
-    active_scene_index = 0;
+    // SuziScene *suzi = new SuziScene(shader_path, main_window);
+    // suzi->CreateDrawableObjects();
+    // scenes.push_back(suzi);
+
+    SphereScene* sphere = new SphereScene(shader_path, main_window);
+    sphere->CreateDrawableObjects();
+    scenes.push_back(sphere);
+
+    active_scene_index = 1;
 }
 
 void Application::Run()

@@ -2,7 +2,6 @@
 #include <glm/gtc/constants.hpp> 
 #include <random>
 
-
 void ForestScene::CreateForest(int trees, int bushes)
 {
     std::random_device rd; 
@@ -55,6 +54,26 @@ void ForestScene::CreateDrawableObjects()
     // });
     // SaveDrawableObject(ct, true);
     CreateForest(40, 20);
+    delete drawable_objects[0]->transformation;
+    drawable_objects[0]->transformation = nullptr;
+}
+
+float degs = 0;
+
+void ForestScene::Draw()
+{
+    if (drawable_objects.size() > 0) 
+    {
+        auto dr = drawable_objects[0];
+        if (dr->transformation) 
+        {
+            delete dr->transformation;
+            dr->transformation = nullptr;
+        }
+        dr->transformation = new Rotation(glm::radians(degs++), glm::vec3(0, 1, 0));
+        if (degs >= 360) degs = 0;
+    }
+    Scene::Draw();
 }
 
 ForestScene::ForestScene(std::string shader_path, GLFWwindow* window) 
