@@ -35,6 +35,12 @@ void Scene::Draw()
     }
 }
 
+void Scene::SetupProjectionPerspective(int w, int h)
+{
+    float ratio = w / (float)h;
+    camera->SetupProjectionPerspective(ratio, 1.0f, 100.0f);
+}
+
 void Scene::HandleKeyboardInput(int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_W && action != GLFW_RELEASE) camera->ToFront();

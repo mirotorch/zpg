@@ -15,6 +15,7 @@ private:
     const std::string shader_path = "shaders/";
     void HandleKeyboardOutput(int key, int scancode, int action, int mods);
     void HandleMouseOutput(double x_pos, double y_pos);
+    void HandleWindowResize(int w, int h);
 public:
     Application();
     void PrintInfo();
@@ -23,6 +24,7 @@ public:
     static void error_callback(int error, const char* description);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void MouseCallback(GLFWwindow* window, double x_pos, double y_pos);
+    static void WindowSizeCallback(GLFWwindow* window, int width, int height);
     ~Application();
 };
 

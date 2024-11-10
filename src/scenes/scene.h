@@ -27,6 +27,7 @@ public:
     virtual void CreateDrawableObjects() = 0;
     void HandleKeyboardInput(int key, int scancode, int action, int mods);
     void HandleMouseInput(double x_pos, double y_pos);
+    void SetupProjectionPerspective(int w, int h);
     virtual void Draw();
     ~Scene();
 };

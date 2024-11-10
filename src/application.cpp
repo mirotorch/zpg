@@ -21,6 +21,13 @@ void Application::MouseCallback(GLFWwindow *window, double x_pos, double y_pos)
     if (app) app->HandleMouseOutput(x_pos, y_pos);
 }
 
+void Application::WindowSizeCallback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) app->HandleWindowResize(width, height);
+}
+
 void Application::PrintInfo()
 {
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
@@ -51,6 +58,9 @@ void Application::HandleKeyboardOutput(int key, int scancode, int action, int mo
         if (active_scene_index + 1 >= scenes.size())
             active_scene_index = 0;
         else active_scene_index++;
+        int w, h;
+        glfwGetFramebufferSize(main_window, &w, &h);
+        scenes[active_scene_index]->SetupProjectionPerspective(w, h);
     }
     else
     {
@@ -63,6 +73,11 @@ void Application::HandleMouseOutput(double x_pos, double y_pos)
 {
     if (glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED && active_scene_index >= 0)
         scenes[active_scene_index]->HandleMouseInput(x_pos, y_pos);
+}
+
+void Application::HandleWindowResize(int w, int h)
+{
+    scenes[active_scene_index]->SetupProjectionPerspective(w, h);
 }
 
 Application::Application()
@@ -99,6 +114,7 @@ Application::Application()
     glfwSetWindowUserPointer(main_window, this);
     glfwSetKeyCallback(main_window, KeyCallback);
     glfwSetCursorPosCallback(main_window, MouseCallback);
+    glfwSetFramebufferSizeCallback(main_window, WindowSizeCallback);
 }
 
 Application::~Application()
