@@ -6,7 +6,8 @@ void DrawableObject::Draw()
     model->SetModel();
 
     glm::mat4 m_model = glm::mat4(1.0f);
-    if (t_model) m_model = t_model->apply(m_model);
+    if (transformation)
+        m_model = transformation->apply(m_model);
 
     shader->UpdateModel(m_model);
 
@@ -15,6 +16,6 @@ void DrawableObject::Draw()
 
 DrawableObject::~DrawableObject()
 {
-    delete t_model;
+    delete transformation;
     delete model;
 }

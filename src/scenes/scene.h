@@ -10,24 +10,25 @@
 
 class Scene
 {
-private:
-    GLFWwindow* window;
-    void Init(std::string title, std::string shader_path);
 protected:
+    GLFWwindow* window;
     std::vector<DrawableObject*> drawable_objects;
     ShaderFactory* shader_factory;
     Camera* camera;
-    virtual void UpdateTransformations() = 0;
-    virtual void HandleKeyboardInput(int key, int scancode, int action, int mods) = 0;
-    virtual void HandleMouseInput(double x_pos, double y_pos) = 0;
+    virtual void SetupCamera(glm::vec3 x, glm::vec3 y, glm::vec3 z);
+    std::string shader_path;
+
+    float last_y;
+    float last_x;
+    bool first_mouse = true;
+    const float rotation_speed = 0.1f;
 public:
-    static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    static void MouseCallback(GLFWwindow* window, double x_pos, double y_pos);
-    Scene(std::string shader_path, int width, int height, const char* title);
     Scene(std::string shader_path, GLFWwindow* window);
-    void SetAsCurrent();
     virtual void CreateDrawableObjects() = 0;
-    int Draw();
+    void HandleKeyboardInput(int key, int scancode, int action, int mods);
+    void HandleMouseInput(double x_pos, double y_pos);
+    void SetupProjectionPerspective(int w, int h);
+    virtual void Draw();
     ~Scene();
 };
 

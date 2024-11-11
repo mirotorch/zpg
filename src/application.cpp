@@ -1,8 +1,31 @@
 #include "application.h"
+#include "scenes/sphereScene.h"
+#include "scenes/forestScene.hpp"
+#include "scenes/shadingTestScene.h"
+#include "scenes/suziScene.h"
 
 void Application::error_callback(int error, const char *description)
 {
     fputs(description, stderr);
+}
+
+void Application::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) app->HandleKeyboardOutput(key, scancode, action, mods);
+}
+
+void Application::MouseCallback(GLFWwindow *window, double x_pos, double y_pos)
+{    
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) app->HandleMouseOutput(x_pos, y_pos);
+}
+
+void Application::WindowSizeCallback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) app->HandleWindowResize(width, height);
 }
 
 void Application::PrintInfo()
@@ -17,6 +40,46 @@ void Application::PrintInfo()
     printf("Using GLFW %i.%i.%i\n", major, minor, revision);
 }
 
+void Application::HandleKeyboardOutput(int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_M && action == GLFW_PRESS)
+    {
+        if (glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
+        {
+            glfwSetInputMode(main_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        } 
+        else 
+        {
+            glfwSetInputMode(main_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+    }
+    if (key == GLFW_KEY_TAB && action == GLFW_PRESS && scenes.size() > 0)
+    {
+        if (active_scene_index + 1 >= scenes.size())
+            active_scene_index = 0;
+        else active_scene_index++;
+        int w, h;
+        glfwGetFramebufferSize(main_window, &w, &h);
+        scenes[active_scene_index]->SetupProjectionPerspective(w, h);
+    }
+    else
+    {
+        if (active_scene_index >= 0)
+            scenes[active_scene_index]->HandleKeyboardInput(key, scancode, action, mods);
+    }
+}
+
+void Application::HandleMouseOutput(double x_pos, double y_pos)
+{
+    if (glfwGetInputMode(main_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED && active_scene_index >= 0)
+        scenes[active_scene_index]->HandleMouseInput(x_pos, y_pos);
+}
+
+void Application::HandleWindowResize(int w, int h)
+{
+    scenes[active_scene_index]->SetupProjectionPerspective(w, h);
+}
+
 Application::Application()
 {
     if (!glfwInit())
@@ -26,36 +89,77 @@ Application::Application()
     }
     glfwSetErrorCallback(error_callback);
 
+    this->main_window = glfwCreateWindow(1400, 700, "main", NULL, NULL);
+    if (!this->main_window)
+    {
+        std::cerr << "Window main" << " failed to initialize" << std::endl;
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+
+    glfwMakeContextCurrent(main_window);
+    glfwSwapInterval(1);
+
+    // start GLEW extension handler
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    int w, h;
+    glfwGetFramebufferSize(main_window, &w, &h);
+    float ratio = w / (float)h;
+    glViewport(0, 0, w, h);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glfwSetWindowUserPointer(main_window, this);
+    glfwSetKeyCallback(main_window, KeyCallback);
+    glfwSetCursorPosCallback(main_window, MouseCallback);
+    glfwSetFramebufferSizeCallback(main_window, WindowSizeCallback);
 }
 
 Application::~Application()
 {
-    scenes.clear(); 
+    for (int i = 0; i < scenes.size(); i++)
+        delete scenes[i];
+    glfwDestroyWindow(this->main_window);
     glfwTerminate();
     exit(EXIT_SUCCESS);
 }
 
 void Application::CreateScenes()
 {
-    std::unique_ptr<Scene> forest(new ForestScene(shader_path, 1400, 700, "forest"));
+    ForestScene* forest = new ForestScene(shader_path, main_window);
     forest->CreateDrawableObjects();
-    scenes.push_back(std::move(forest));
+    scenes.push_back(forest);
+
+    // SuziScene *suzi = new SuziScene(shader_path, main_window);
+    // suzi->CreateDrawableObjects();
+    // scenes.push_back(suzi);
+
+    SphereScene* sphere = new SphereScene(shader_path, main_window);
+    sphere->CreateDrawableObjects();
+    scenes.push_back(sphere);
+
+    active_scene_index = 1;
 }
 
 void Application::Run()
 {
-    while (!scenes.empty())
+    while (!glfwWindowShouldClose(main_window))
     {
-        for (auto it = scenes.begin(); it != scenes.end();)
+        if (active_scene_index >= 0)
         {
-            Scene *scene = it->get();
-            if (scene->Draw() != 0)
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            scenes[active_scene_index]->Draw();
+
+            // put the stuff we’ve been drawing onto the display
+            glfwSwapBuffers(main_window);
+            GLenum error = glGetError();
+            if (error != GL_NO_ERROR)
             {
-                it = scenes.erase(it);
-            }
-            else
-            {
-                ++it;
+                std::cerr << "OpenGL error: " << error << std::endl;
+                break;
             }
         }
         // update other events like input handling

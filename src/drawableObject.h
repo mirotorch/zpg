@@ -10,7 +10,7 @@ class DrawableObject
 public:
     Model* model;
     ShaderProgram* shader;
-    Transformation* t_model;
+    Transformation* transformation;
     void Draw();
     ~DrawableObject();
 };

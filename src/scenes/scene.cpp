@@ -1,65 +1,19 @@
 #include "scene.h"
 
-void Scene::Init(std::string title, std::string shader_path)
+void Scene::SetupCamera(glm::vec3 x, glm::vec3 y, glm::vec3 z)
 {
-    camera = new Camera();
-    shader_factory = new ShaderFactory(shader_path, camera);
-
-    if (!this->window)
-    {
-        std::cerr << "Window " << title << " failed to initialize" << std::endl;
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    // start GLEW extension handler
-    glewExperimental = GL_TRUE;
-    glewInit();
-
+    this->camera = new Camera(x, y, z);
     int w, h;
     glfwGetFramebufferSize(window, &w, &h);
     float ratio = w / (float)h;
-    glViewport(0, 0, w, h);
-
-    glEnable(GL_DEPTH_TEST);
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
-
-    glfwSetWindowUserPointer(window, this);
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetCursorPosCallback(window, MouseCallback);
-}
-
-void Scene::KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-    Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
-    if (scene) scene->HandleKeyboardInput(key, scancode, action, mods);
-}
-
-void Scene::MouseCallback(GLFWwindow *window, double xpos, double ypos)
-{
-    Scene* scene = static_cast<Scene*>(glfwGetWindowUserPointer(window));
-    if (scene) scene->HandleMouseInput(xpos, ypos);
-}
-
-Scene::Scene(std::string shader_path, int width, int height, const char *title)
-{
-    this->window = glfwCreateWindow(width, height, title, NULL, NULL);
-    Init(title, shader_path);
+    camera->SetupProjectionPerspective(ratio, 1.0f, 100.0f);
+    shader_factory = new ShaderFactory(shader_path, camera);
 }
 
 Scene::Scene(std::string shader_path, GLFWwindow *window)
 {
     this->window = window;
-    Init("", shader_path);
-}
-
-void Scene::SetAsCurrent()
-{
-    glfwMakeContextCurrent(window);
+    this->shader_path = shader_path;
 }
 
 Scene::~Scene()
@@ -71,34 +25,45 @@ Scene::~Scene()
     drawable_objects.clear();
     delete shader_factory;
     delete camera;
-    glfwDestroyWindow(this->window);
 }
 
-int Scene::Draw()
+void Scene::Draw()
 {
-    SetAsCurrent();
-    if (!glfwWindowShouldClose(window))
+    for (const auto &drawable : drawable_objects)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        UpdateTransformations();
-
-        for (const auto& drawable : drawable_objects)
-        {
-            drawable->Draw();
-        }
-
-        // put the stuff we’ve been drawing onto the display
-        glfwSwapBuffers(window);
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR)
-        {
-            std::cerr << "OpenGL error: " << error << std::endl;
-        }
-        return error;
+        drawable->Draw();
     }
-    else
+}
+
+void Scene::SetupProjectionPerspective(int w, int h)
+{
+    float ratio = w / (float)h;
+    camera->SetupProjectionPerspective(ratio, 1.0f, 100.0f);
+}
+
+void Scene::HandleKeyboardInput(int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_W && action != GLFW_RELEASE) camera->ToFront();
+    else if (key == GLFW_KEY_S && action != GLFW_RELEASE) camera->ToBack();
+    else if (key == GLFW_KEY_A && action != GLFW_RELEASE) camera->ToLeft();
+    else if (key == GLFW_KEY_D && action != GLFW_RELEASE) camera->ToRight();
+}
+
+void Scene::HandleMouseInput(double x_pos, double y_pos)
+{
+    if (first_mouse) 
     {
-        return -1;
+        last_x = x_pos;
+        last_y = y_pos;
+        first_mouse = false;
+        return;
     }
+
+    float xoffset = x_pos - last_x;
+    float yoffset = last_y - y_pos;
+
+    last_x = x_pos;
+    last_y = y_pos;
+
+    camera->Rotate(xoffset * rotation_speed, yoffset * rotation_speed); 
 }

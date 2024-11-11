@@ -2,11 +2,6 @@
 #include <glm/gtc/constants.hpp> 
 #include <random>
 
-
-void ForestScene::UpdateTransformations()
-{
-}
-
 void ForestScene::CreateForest(int trees, int bushes)
 {
     std::random_device rd; 
@@ -40,56 +35,49 @@ void ForestScene::SaveDrawableObject(Transformation* ct, bool is_tree)
     if (is_tree) 
     {
         size_t size = sizeof(tree) / sizeof(float);
-        drawable->model = new Model(tree, size);
+        drawable->model = new Model(tree, size, 92814);
     }
     else
     {
         size_t size = sizeof(bushes) / sizeof(float);
-        drawable->model = new Model(bushes, size);
+        drawable->model = new Model(bushes, size, 92814);
     }
-    drawable->shader = shader_factory->GetShader("camera_v", "normale_f");
-    drawable->t_model = ct;
+    drawable->shader = shader_factory->GetShader("phong_v", "phong_f");
+    drawable->transformation = ct;
     drawable_objects.push_back(drawable);
 }
 
 void ForestScene::CreateDrawableObjects()
 {
-    SetAsCurrent();
-
+    // CompoundTransformation* ct = new CompoundTransformation(std::vector<Transformation*>
+    // {
+    // });
+    // SaveDrawableObject(ct, true);
     CreateForest(40, 20);
+    delete drawable_objects[0]->transformation;
+    drawable_objects[0]->transformation = nullptr;
 }
 
-void ForestScene::HandleKeyboardInput(int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_W) camera->ToFront();
-    else if (key == GLFW_KEY_S) camera->ToBack();
-    else if (key == GLFW_KEY_A) camera->ToLeft();
-    else if (key == GLFW_KEY_D) camera->ToRight();
-}
+float degs = 0;
 
-void ForestScene::HandleMouseInput(double x_pos, double y_pos)
+void ForestScene::Draw()
 {
-    if (first_mouse) 
+    if (drawable_objects.size() > 0) 
     {
-        last_x = x_pos;
-        last_y = y_pos;
-        first_mouse = false;
-        return;
+        auto dr = drawable_objects[0];
+        if (dr->transformation) 
+        {
+            delete dr->transformation;
+            dr->transformation = nullptr;
+        }
+        dr->transformation = new Rotation(glm::radians(degs++), glm::vec3(0, 1, 0));
+        if (degs >= 360) degs = 0;
     }
-
-    float xoffset = x_pos - last_x;
-    float yoffset = last_y - y_pos;
-
-    last_x = x_pos;
-    last_y = y_pos;
-
-    camera->Rotate(xoffset * rotation_speed, yoffset * rotation_speed); 
+    Scene::Draw();
 }
 
-
-ForestScene::ForestScene(std::string shader_path, int width, int height, const char *title) 
-: Scene(shader_path, width, height, title)
+ForestScene::ForestScene(std::string shader_path, GLFWwindow* window) 
+: Scene(shader_path, window)
 {
-    // float aspect = width / (float)height;
-    camera->SetupProjectionPerspective(1.0f, 1.0f, 100.0f);
+    SetupCamera(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }

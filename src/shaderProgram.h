@@ -20,14 +20,17 @@ private:
     GLint model_matrix = 0;
     GLint view_matrix = 0;
     GLint projection_matrix = 0;
+    GLint view_vector = 0;
     std::string ReadGlsl(const char* path);
     void CheckCompileStatus(const char* shader_path, GLuint id);
 public:
     ShaderProgram(const char *vertex_path, const char *fragment_path);
+    ShaderProgram(GLuint id);
     void UseProgram(); 
     void UpdateModel(glm::mat4 model);
-    virtual void UpdateView(glm::mat4 view);
-    virtual void UpdateProjection(glm::mat4 projection);
+    virtual void UpdateViewMatrix(glm::mat4 view);
+    virtual void UpdateProjectionMatrix(glm::mat4 projection);
+    virtual void UpdateViewVector(glm::vec3 view);
     ~ShaderProgram();
 };  
 

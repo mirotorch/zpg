@@ -9,7 +9,8 @@ void Camera::NotifyViewChanged()
     glm::mat4 view = glm::lookAt(eye, center + eye, up);
     for (auto observer : observers)
     {
-        observer->UpdateView(view);
+        observer->UpdateViewMatrix(view);
+        observer->UpdateViewVector(center);
     }
 }
 
@@ -17,15 +18,15 @@ void Camera::NotifyProjectionChanged()
 {
     for (auto observer : observers)
     {
-        observer->UpdateProjection(projection);
+        observer->UpdateProjectionMatrix(projection);
     }
 }
 
-Camera::Camera()
+Camera::Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 {
-    eye = glm::vec3(0.0f, 0.0f, -2.0f);
-    center = glm::vec3(0.0f, 0.0f, 1.0f);
-    up = glm::vec3(0.0f, 1.0f, 0.0f);
+    this->eye = eye;
+    this->center = center;
+    this->up = up;
     projection = glm::mat4(1.0f);
     yaw = 0;
     pitch = 0;
@@ -59,8 +60,8 @@ void Camera::Rotate(float deltaYaw, float deltaPitch)
 void Camera::Subscribe(ICameraObserver *listener)
 {
     observers.insert(listener);
-    listener->UpdateView(glm::lookAt(eye, center, up));
-    listener->UpdateProjection(projection);
+    listener->UpdateViewMatrix(glm::lookAt(eye, center, up));
+    listener->UpdateProjectionMatrix(projection);
 }
 
 void Camera::Unsubscribe(ICameraObserver *listener)

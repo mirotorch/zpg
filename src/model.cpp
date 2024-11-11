@@ -1,17 +1,17 @@
 #include "model.h"
-#include "models/tree.h"
 
-Model::Model(const float vertices[], size_t length) : Model(std::vector(vertices, vertices + length))
+Model::Model(const float vertices[], size_t array_length, size_t vertices_count) 
+: Model(std::vector(vertices, vertices + array_length), vertices_count)
 {    
 }
 
-Model::Model(std::vector<float> vertices)
+Model::Model(std::vector<float> vertices, size_t vertices_count)
 {
-    this->vertices_count = sizeof(tree) / sizeof(float);//vertices.size();
+    this->vertices_count = vertices_count;
 
     glGenBuffers(1, &vbo); 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(tree), tree, GL_STATIC_DRAW); 
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW); 
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
