@@ -2,7 +2,6 @@
 
 void DrawableObject::Draw()
 {
-    shader->UseProgram();
     model->SetModel();
 
     glm::mat4 m_model = glm::mat4(1.0f);
@@ -10,8 +9,10 @@ void DrawableObject::Draw()
         m_model = transformation->apply(m_model);
 
     shader->UpdateModel(m_model);
-
+    
+    shader->UseProgram();
     glDrawArrays(GL_TRIANGLES, 0, model->GetVerticesCount());
+    glUseProgram(0);
 }
 
 DrawableObject::~DrawableObject()
