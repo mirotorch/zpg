@@ -5,7 +5,7 @@ in vec3 normal;
 
 out vec4 fragColor;
 
-uniform vec3 viewVector;
+uniform vec3 cameraPosition;
 
 void main()
 {

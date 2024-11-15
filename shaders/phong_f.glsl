@@ -5,7 +5,7 @@ in vec3 normal;
 
 out vec4 fragColor;
 
-uniform vec3 viewVector;
+uniform vec3 cameraPosition;
 
 void main()
 {
@@ -27,7 +27,7 @@ void main()
     vec3 diffuse = diff * lightColor;
 
     float specularStrength = 0.5;
-    vec3 viewDir = normalize(viewVector - fragPos);
+    vec3 viewDir = normalize(cameraPosition - fragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * lightColor;

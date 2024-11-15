@@ -60,7 +60,7 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
-    view_vector = glGetUniformLocation(this->shader_program, "viewVector");
+    camera_position = glGetUniformLocation(this->shader_program, "cameraPosition");
 }
 
 ShaderProgram::ShaderProgram(GLuint id)
@@ -69,7 +69,7 @@ ShaderProgram::ShaderProgram(GLuint id)
     model_matrix = glGetUniformLocation(this->shader_program, "modelMatrix");
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
-    view_vector = glGetUniformLocation(this->shader_program, "viewVector");
+    camera_position = glGetUniformLocation(this->shader_program, "cameraPosition");
 }
 
 void ShaderProgram::UseProgram()
@@ -124,8 +124,8 @@ ShaderProgram::~ShaderProgram()
     glDeleteProgram(this->shader_program);
 }
 
-void ShaderProgram::UpdateViewVector(glm::vec3 view)
+void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
 {
     this->UseProgram();
-    glUniform3f(view_vector, view[0], view[1], view[2]);
+    glUniform3f(camera_position, view[0], view[1], view[2]);
 }

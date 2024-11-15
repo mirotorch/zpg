@@ -20,7 +20,7 @@ private:
     GLint model_matrix = 0;
     GLint view_matrix = 0;
     GLint projection_matrix = 0;
-    GLint view_vector = 0;
+    GLint camera_position = 0;
     std::string ReadGlsl(const char* path);
     void CheckCompileStatus(const char* shader_path, GLuint id);
 public:
@@ -28,9 +28,11 @@ public:
     ShaderProgram(GLuint id);
     void UseProgram(); 
     void UpdateModel(glm::mat4 model);
+
     virtual void UpdateViewMatrix(glm::mat4 view);
     virtual void UpdateProjectionMatrix(glm::mat4 projection);
-    virtual void UpdateViewVector(glm::vec3 view);
+    virtual void UpdateCameraPosition(glm::vec3 view);
+
     ~ShaderProgram();
 };  
 
