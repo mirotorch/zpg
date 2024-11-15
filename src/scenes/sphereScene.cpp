@@ -33,7 +33,7 @@ void SphereScene::CreateDrawableObjects()
         DrawableObject* dwo = new DrawableObject();
         dwo->model = new Model(sphere_vertices, 2880);
         dwo->transformation = s_trans[i];
-        dwo->shader = shader_factory->GetShader("phong_v", "blinn_f");
+        dwo->shader = shader_factory->GetShader("phong_v", "phong_f");
         drawable_objects.push_back(dwo);
     }
 }
