@@ -40,6 +40,9 @@ void SphereScene::CreateDrawableObjects()
     Light l;
     l.color = glm::vec3(1.0f);
     l.position = glm::vec3(0.0f);
+    l.constant = 0.1;
+    l.linear = 1;
+    l.quadratic = 1;
     shader_factory->GetShader("phong_v", "phong_f")->AddLight(l);
 }
 
