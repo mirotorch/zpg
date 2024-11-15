@@ -36,6 +36,11 @@ void SphereScene::CreateDrawableObjects()
         dwo->shader = shader_factory->GetShader("phong_v", "phong_f");
         drawable_objects.push_back(dwo);
     }
+
+    Light l;
+    l.color = glm::vec3(1.0f);
+    l.position = glm::vec3(0.0f);
+    shader_factory->GetShader("phong_v", "phong_f")->AddLight(l);
 }
 
 

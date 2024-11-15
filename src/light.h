@@ -2,7 +2,7 @@
 
 #include <glm/vec3.hpp>
 
-#define NUM_LIGHTS 4
+#define MAX_LIGHTS 4
 
 struct Light {
     glm::vec3 position;

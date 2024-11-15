@@ -7,7 +7,7 @@ out vec4 out_Color;
 
 uniform vec3 cameraPosition;
 
-#define NUM_LIGHTS 4
+#define MAX_LIGHTS 4
 
 struct Light {
     vec3 position;
@@ -18,7 +18,7 @@ struct Light {
     float quadratic;
 };
 
-uniform Light lights[NUM_LIGHTS];
+uniform Light lights[MAX_LIGHTS];
 
 void main(void) {
     vec3 normal = normalize(ex_worldNormal.xyz);

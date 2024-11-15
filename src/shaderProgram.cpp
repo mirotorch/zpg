@@ -61,6 +61,9 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
     camera_position = glGetUniformLocation(this->shader_program, "cameraPosition");
+
+    lights = glGetUniformLocation(this->shader_program, "lights");
+    light_count = glGetUniformLocation(this->shader_program, "lightCount");
 }
 
 ShaderProgram::ShaderProgram(GLuint id)
@@ -70,6 +73,9 @@ ShaderProgram::ShaderProgram(GLuint id)
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
     camera_position = glGetUniformLocation(this->shader_program, "cameraPosition");
+
+    lights = glGetUniformLocation(this->shader_program, "lights");
+    light_count = glGetUniformLocation(this->shader_program, "lightCount");
 }
 
 void ShaderProgram::UseProgram()
@@ -128,4 +134,39 @@ void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
 {
     this->UseProgram();
     glUniform3f(camera_position, view[0], view[1], view[2]);
+}
+
+void ShaderProgram::AddLight(Light l)
+{
+    if (light_count_local >= MAX_LIGHTS) 
+    {
+        std::cout << "max light reached" << std::endl;
+        return;
+    }
+    UseProgram();
+    std::string baseName = "lights[" + std::to_string(light_count_local) + "]";
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".position").c_str()), 1, &l.position[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".color").c_str()), 1, &l.color[0]);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);
+    // glUseProgram(0);
+    light_count_local++;
+}
+
+void ShaderProgram::UpdateLight(int index, Light l)
+{
+
+    if (index >= light_count_local || index < 0) 
+    {
+        std::cerr << "UpdateLight(): invalid index " << index << ", light_count=" << light_count_local << std::endl;
+        return;
+    }
+    
+    std::string baseName = "lights[" + std::to_string(light_count_local) + "]";
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".position").c_str()), 1, &l.position[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".color").c_str()), 1, &l.color[0]);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);
 }

@@ -7,10 +7,23 @@ out vec4 fragColor;
 
 uniform vec3 cameraPosition;
 
+#define MAX_LIGHTS 4
+
+struct Light {
+    vec3 position;
+    vec3 color;
+
+    float constant;
+    float linear;
+    float quadratic;
+};
+
+uniform Light lights[MAX_LIGHTS];
+
 void main()
 {
-    vec3 lightPosition = vec3(0.0, 0.0, 0.0);
-    vec3 lightColor = vec3(1.0, 1.0, 1.0);
+    vec3 lightPosition = lights[0].position;
+    vec3 lightColor = lights[0].color;
     vec3 objectColor = vec3(0.385, 0.647, 0.812);
     vec3 ambientStrength = vec3(0.1);  
 

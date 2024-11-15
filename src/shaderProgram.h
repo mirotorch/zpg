@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "ICameraObserver.hpp"
+#include "light.h"
 
 // file IO
 #include <iostream>
@@ -17,21 +18,31 @@ class ShaderProgram : public ICameraObserver
 {
 private:
     GLuint shader_program = 0;
+
     GLint model_matrix = 0;
     GLint view_matrix = 0;
     GLint projection_matrix = 0;
     GLint camera_position = 0;
+
+    GLint lights = 0;
+    GLint light_count = 0;
+    int light_count_local = 0;  
+
     std::string ReadGlsl(const char* path);
     void CheckCompileStatus(const char* shader_path, GLuint id);
 public:
     ShaderProgram(const char *vertex_path, const char *fragment_path);
     ShaderProgram(GLuint id);
+
     void UseProgram(); 
     void UpdateModel(glm::mat4 model);
 
     virtual void UpdateViewMatrix(glm::mat4 view);
     virtual void UpdateProjectionMatrix(glm::mat4 projection);
     virtual void UpdateCameraPosition(glm::vec3 view);
+
+    void AddLight(Light l);
+    void UpdateLight(int index, Light l);
 
     ~ShaderProgram();
 };  
