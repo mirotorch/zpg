@@ -134,6 +134,7 @@ void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
 {
     this->UseProgram();
     glUniform3f(camera_position, view[0], view[1], view[2]);
+    glUseProgram(0);
 }
 
 void ShaderProgram::AddLight(Light l)
@@ -150,7 +151,7 @@ void ShaderProgram::AddLight(Light l)
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);
-    // glUseProgram(0);
+    glUseProgram(0);
     light_count_local++;
 }
 
