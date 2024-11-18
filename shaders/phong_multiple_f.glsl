@@ -1,9 +1,9 @@
-#version 330 core
+#version 400
 
-in vec4 ex_worldPosition;
-in vec4 ex_worldNormal;
+in vec3 fragPos;
+in vec3 normal; 
 
-out vec4 out_Color;
+out vec4 fragColor;
 
 uniform vec3 cameraPosition;
 
@@ -21,32 +21,40 @@ struct Light {
 uniform Light lights[MAX_LIGHTS];
 uniform int lightCount;
 
-void main(void) {
-    vec3 normal = normalize(ex_worldNormal.xyz);
-    vec3 viewDir = normalize(cameraPosition - ex_worldPosition.xyz);
+void main()
+{
+    vec3 objectColor = vec3(0.385, 0.647, 0.812);
+    vec3 ambientStrength = vec3(0.1);  
+    vec3 result = vec3(0);
 
-    vec4 result = vec4(0.0);
+    for (int i = 0; i < lightCount; i++)
+    {
+        vec3 lightPosition = lights[i].position;
+        vec3 lightColor = lights[i].color;
 
-    for (int i = 0; i < lightCount; ++i) {
-        vec3 lightVector = normalize(lights[i].position - ex_worldPosition.xyz);
+        vec3 ambient = ambientStrength * lightColor;
 
-        float distance = length(lights[i].position - ex_worldPosition.xyz);
+        vec3 norm = normalize(normal);
+        vec3 lightDir = normalize(lightPosition - fragPos);
 
-        float attenuation = 1.0 / (lights[i].constant + lights[i].linear * distance + lights[i].quadratic * (distance * distance));
+        if (dot(norm, lightDir) < 0.0) {
+            norm = vec3(0);  
+        }
 
-        float ambientStrength = 0.1;
-        vec4 ambient = ambientStrength * vec4(lights[i].color, 1.0);
-
-        float diff = max(dot(normal, lightVector), 0.0);
-        vec4 diffuse = diff * vec4(lights[i].color, 1.0) * vec4(0.385, 0.647, 0.812, 1.0);
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuse = diff * lightColor;
 
         float specularStrength = 0.5;
-        vec3 reflectDir = reflect(-lightVector, normal);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8);
-        vec4 specular = specularStrength * spec * vec4(lights[i].color, 1.0);
+        vec3 viewDir = normalize(cameraPosition - fragPos);
+        vec3 reflectDir = reflect(-lightDir, norm);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+        vec3 specular = specularStrength * spec * lightColor;
+
+        float distance = length(lightPosition - fragPos.xyz);
+        float attenuation = 1.0 / (lights[i].constant + lights[i].linear * distance + lights[i].quadratic * (distance * distance));
 
         result += (ambient + diffuse + specular) * attenuation;
     }
 
-    out_Color = result;
+    fragColor = vec4(result * objectColor, 1.0);
 }

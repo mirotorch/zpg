@@ -42,7 +42,7 @@ void ForestScene::SaveDrawableObject(Transformation* ct, bool is_tree)
         size_t size = sizeof(bushes) / sizeof(float);
         drawable->model = new Model(bushes, size, 92814);
     }
-    drawable->shader = shader_factory->GetShader("phong_v", "phong_multiple_f");
+    drawable->shader = shader_factory->GetShader("phong_v", "phong_f");
     drawable->transformation = ct;
     drawable_objects.push_back(drawable);
 }
@@ -56,7 +56,7 @@ void ForestScene::CreateDrawableObjects()
     CreateForest(40, 20);
     delete drawable_objects[0]->transformation;
     drawable_objects[0]->transformation = nullptr;
-    shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(NewLight(glm::vec3(0.0f), glm::vec3(1.0f), 
+    shader_factory->GetShader("phong_v", "phong_f")->AddLight(NewLight(glm::vec3(0.0f), glm::vec3(1.0f), 
     1.0f, 1.0f, 1.0f));
 }
 
