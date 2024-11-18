@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "ICameraObserver.hpp"
-#include "light.h"
+#include "light.hpp"
 
 // file IO
 #include <iostream>

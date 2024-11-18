@@ -19,6 +19,7 @@ struct Light {
 };
 
 uniform Light lights[MAX_LIGHTS];
+uniform Light lightCount;
 
 void main()
 {

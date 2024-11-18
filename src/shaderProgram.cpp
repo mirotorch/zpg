@@ -151,8 +151,9 @@ void ShaderProgram::AddLight(Light l)
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);
-    glUseProgram(0);
     light_count_local++;
+    glUniform1i(light_count, light_count_local);
+    glUseProgram(0);
 }
 
 void ShaderProgram::UpdateLight(int index, Light l)

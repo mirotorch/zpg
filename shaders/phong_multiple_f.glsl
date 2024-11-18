@@ -19,6 +19,7 @@ struct Light {
 };
 
 uniform Light lights[MAX_LIGHTS];
+uniform int lightCount;
 
 void main(void) {
     vec3 normal = normalize(ex_worldNormal.xyz);
@@ -26,7 +27,7 @@ void main(void) {
 
     vec4 result = vec4(0.0);
 
-    for (int i = 0; i < NUM_LIGHTS; ++i) {
+    for (int i = 0; i < lightCount; ++i) {
         vec3 lightVector = normalize(lights[i].position - ex_worldPosition.xyz);
 
         float distance = length(lights[i].position - ex_worldPosition.xyz);

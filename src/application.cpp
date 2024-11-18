@@ -1,6 +1,6 @@
 #include "application.h"
 #include "scenes/sphereScene.h"
-#include "scenes/forestScene.hpp"
+#include "scenes/forestScene.h"
 #include "scenes/shadingTestScene.h"
 #include "scenes/suziScene.h"
 
@@ -128,9 +128,9 @@ Application::~Application()
 
 void Application::CreateScenes()
 {
-    ForestScene* forest = new ForestScene(shader_path, main_window);
-    forest->CreateDrawableObjects();
-    scenes.push_back(forest);
+    // ForestScene* forest = new ForestScene(shader_path, main_window);
+    // forest->CreateDrawableObjects();
+    // scenes.push_back(forest);
 
     // SuziScene *suzi = new SuziScene(shader_path, main_window);
     // suzi->CreateDrawableObjects();
@@ -140,7 +140,7 @@ void Application::CreateScenes()
     sphere->CreateDrawableObjects();
     scenes.push_back(sphere);
 
-    active_scene_index = 1;
+    active_scene_index = 0;
 }
 
 void Application::Run()
