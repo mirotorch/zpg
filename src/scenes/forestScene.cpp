@@ -1,4 +1,4 @@
-#include "forestScene.hpp"
+#include "forestScene.h"
 #include <glm/gtc/constants.hpp> 
 #include <random>
 
@@ -56,6 +56,8 @@ void ForestScene::CreateDrawableObjects()
     CreateForest(40, 20);
     delete drawable_objects[0]->transformation;
     drawable_objects[0]->transformation = nullptr;
+    shader_factory->GetShader("phong_v", "phong_f")->AddLight(NewLight(glm::vec3(0.0f), glm::vec3(1.0f), 
+    1.0f, 1.0f, 1.0f));
 }
 
 float degs = 0;

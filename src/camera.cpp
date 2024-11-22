@@ -10,7 +10,7 @@ void Camera::NotifyViewChanged()
     for (auto observer : observers)
     {
         observer->UpdateViewMatrix(view);
-        observer->UpdateViewVector(center);
+        observer->UpdateCameraPosition(center);
     }
 }
 

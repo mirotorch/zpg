@@ -33,9 +33,24 @@ void SphereScene::CreateDrawableObjects()
         DrawableObject* dwo = new DrawableObject();
         dwo->model = new Model(sphere_vertices, 2880);
         dwo->transformation = s_trans[i];
-        dwo->shader = shader_factory->GetShader("phong_v", "blinn_f");
+        dwo->shader = shader_factory->GetShader("phong_v", "phong_multiple_f");
+        Material m;
+        m.ambient = glm::vec3(0.5f);
+        m.diffuse = glm::vec3(1.0f);
+        m.specular = glm::vec3(0.5f);
+        m.shininess = 32;
+        dwo->material = m;
         drawable_objects.push_back(dwo);
     }
+
+    Light l;
+    l.color = glm::vec3(1.0f);
+    l.position = glm::vec3(0.0f);
+    l.constant = 0.1;
+    l.linear = 1;
+    l.quadratic = 1;
+    shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(l);
+    // shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(NewLight(glm::vec3(2.0f), glm::vec3(1.0f), 0.1, 1, 1));
 }
 
 
