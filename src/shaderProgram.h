@@ -25,9 +25,8 @@ private:
     GLint projection_matrix = 0;
     GLint camera_position = 0;
 
-    GLint lights = 0;
-    GLint light_count = 0;
-    int light_count_local = 0;  
+    GLint point_light_count = 0;
+    GLint dir_light_count = 0;
 
     std::string ReadGlsl(const char* path);
     void CheckCompileStatus(const char* shader_path, GLuint id);
@@ -42,8 +41,10 @@ public:
     virtual void UpdateProjectionMatrix(glm::mat4 projection);
     virtual void UpdateCameraPosition(glm::vec3 view);
 
-    void AddLight(Light l);
-    void UpdateLight(int index, Light l);
+    void AddLight(PointLight l);
+    void AddLight(DirLight l);
+    void UpdateLight(int index, PointLight l);
+    void UpdateLight(int index, DirLight l);
     void SetMaterial(Material m);
 
     ~ShaderProgram();
