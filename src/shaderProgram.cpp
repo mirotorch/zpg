@@ -130,6 +130,17 @@ ShaderProgram::~ShaderProgram()
     glDeleteProgram(this->shader_program);
 }
 
+void ShaderProgram::SetMaterial(Material m)
+{
+    UseProgram();
+    std::string base_name = "material";
+    glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".ambient").c_str()), 1, &m.ambient[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".diffuse").c_str()), 1, &m.diffuse[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".specular").c_str()), 1, &m.specular[0]);
+    glUniform1f(glGetUniformLocation(shader_program, (base_name + ".shininess").c_str()), m.shininess);
+    glUseProgram(0);
+}
+
 void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
 {
     this->UseProgram();
@@ -145,12 +156,12 @@ void ShaderProgram::AddLight(Light l)
         return;
     }
     UseProgram();
-    std::string baseName = "lights[" + std::to_string(light_count_local) + "]";
-    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".position").c_str()), 1, &l.position[0]);
-    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".color").c_str()), 1, &l.color[0]);
-    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
-    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
-    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);
+    std::string base_name = "lights[" + std::to_string(light_count_local) + "]";
+    glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".position").c_str()), 1, &l.position[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".color").c_str()), 1, &l.color[0]);
+    glUniform1f(glGetUniformLocation(shader_program, (base_name + ".constant").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (base_name + ".linear").c_str()), l.linear);
+    glUniform1f(glGetUniformLocation(shader_program, (base_name + ".quadratic").c_str()), l.quadratic);
     light_count_local++;
     glUniform1i(light_count, light_count_local);
     glUseProgram(0);

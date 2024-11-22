@@ -7,6 +7,7 @@
 
 #include "ICameraObserver.hpp"
 #include "light.hpp"
+#include "material.hpp"
 
 // file IO
 #include <iostream>
@@ -43,6 +44,7 @@ public:
 
     void AddLight(Light l);
     void UpdateLight(int index, Light l);
+    void SetMaterial(Material m);
 
     ~ShaderProgram();
 };  

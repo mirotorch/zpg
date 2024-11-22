@@ -11,6 +11,7 @@ public:
     Model* model;
     ShaderProgram* shader;
     Transformation* transformation;
+    Material material;
     void Draw();
     ~DrawableObject();
 };

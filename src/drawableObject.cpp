@@ -9,6 +9,7 @@ void DrawableObject::Draw()
         m_model = transformation->apply(m_model);
 
     shader->UpdateModel(m_model);
+    shader->SetMaterial(material);
     
     shader->UseProgram();
     glDrawArrays(GL_TRIANGLES, 0, model->GetVerticesCount());
