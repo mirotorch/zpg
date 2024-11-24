@@ -27,6 +27,7 @@ private:
 
     GLint point_light_count = 0;
     GLint dir_light_count = 0;
+    GLint spotlight_count = 0;
 
     std::string ReadGlsl(const char* path);
     void CheckCompileStatus(const char* shader_path, GLuint id);
@@ -43,8 +44,10 @@ public:
 
     void AddLight(PointLight l);
     void AddLight(DirLight l);
+    void AddLight(Spotlight l);
     void UpdateLight(int index, PointLight l);
     void UpdateLight(int index, DirLight l);
+    void UpdateLight(int index, Spotlight l);
     void SetMaterial(Material m);
 
     ~ShaderProgram();

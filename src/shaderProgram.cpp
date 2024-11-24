@@ -64,6 +64,11 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
 
     point_light_count = glGetUniformLocation(this->shader_program, "pointLightCount");
     dir_light_count = glGetUniformLocation(this->shader_program, "dirLightCount");
+    UseProgram();
+    glUniform1i(point_light_count, 0);
+    glUniform1i(dir_light_count, 0);
+    glUniform1i(spotlight_count, 0);
+    glUseProgram(0);
 }
 
 ShaderProgram::ShaderProgram(GLuint id)
@@ -77,8 +82,10 @@ ShaderProgram::ShaderProgram(GLuint id)
 
     point_light_count = glGetUniformLocation(this->shader_program, "pointLightCount");
     dir_light_count = glGetUniformLocation(this->shader_program, "dirLightCount");
+    spotlight_count = glGetUniformLocation(this->shader_program, "spotlightCount");
     glUniform1i(point_light_count, 0);
     glUniform1i(dir_light_count, 0);
+    glUniform1i(spotlight_count, 0);
     glUseProgram(0);
 }
 
@@ -149,6 +156,12 @@ void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
 {
     this->UseProgram();
     glUniform3f(camera_position, view[0], view[1], view[2]);
+    int count;
+    glGetUniformiv(shader_program, dir_light_count, &count);
+    for (int i = 0; i < count; i++) {
+        glUniform3fv(glGetUniformLocation(shader_program,
+            ("spotlights[" + std::to_string(i) + "].position").c_str()), 1, &view[0]);
+    }
     glUseProgram(0);
 }
 
@@ -184,6 +197,22 @@ void ShaderProgram::AddLight(DirLight l)
     glUseProgram(0);
 }
 
+void ShaderProgram::AddLight(Spotlight l)
+{
+    int count;
+    glGetUniformiv(shader_program, spotlight_count, &count);
+    if (count >= MAX_DIR_LIGHTS) 
+    {
+        std::cout << "max spotlight reached" << std::endl;
+        return;
+    }
+    UseProgram();
+    count++;
+    glUniform1i(spotlight_count, count);
+    UpdateLight(count - 1, l);
+    glUseProgram(0);
+}
+
 void ShaderProgram::UpdateLight(int index, PointLight l)
 {
     int count;
@@ -214,4 +243,24 @@ void ShaderProgram::UpdateLight(int index, DirLight l)
     std::string baseName = "dirLights[" + std::to_string(index) + "]";
     glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".color").c_str()), 1, &l.color[0]);
     glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".direction").c_str()), 1, &l.direction[0]);
+}
+
+void ShaderProgram::UpdateLight(int index, Spotlight l)
+{
+    int count;
+    glGetUniformiv(shader_program, spotlight_count, &count);
+    if (index >= count || index < 0) 
+    {
+        std::cerr << "UpdateLight(): invalid index " << index << ", spotlight_count=" << count << std::endl;
+        return;
+    }
+    std::string baseName = "spotlights[" + std::to_string(index) + "]";
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".position").c_str()), 1, &l.position[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".direction").c_str()), 1, &l.direction[0]);
+    glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".color").c_str()), 1, &l.color[0]);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".cutoff").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".outerCutoff").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);
 }
