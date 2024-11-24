@@ -61,10 +61,12 @@ ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
     camera_position = glGetUniformLocation(this->shader_program, "cameraPosition");
+    texture_unit = glGetUniformLocation(this->shader_program, "textureUnit");
 
     point_light_count = glGetUniformLocation(this->shader_program, "pointLightCount");
     dir_light_count = glGetUniformLocation(this->shader_program, "dirLightCount");
     UseProgram();
+    glUniform1i(texture_unit, 0);
     glUniform1i(point_light_count, 0);
     glUniform1i(dir_light_count, 0);
     glUniform1i(spotlight_count, 0);
@@ -79,10 +81,12 @@ ShaderProgram::ShaderProgram(GLuint id)
     projection_matrix = glGetUniformLocation(this->shader_program, "projectionMatrix");
     view_matrix = glGetUniformLocation(this->shader_program, "viewMatrix");
     camera_position = glGetUniformLocation(this->shader_program, "cameraPosition");
+    texture_unit = glGetUniformLocation(this->shader_program, "textureUnit");
 
     point_light_count = glGetUniformLocation(this->shader_program, "pointLightCount");
     dir_light_count = glGetUniformLocation(this->shader_program, "dirLightCount");
     spotlight_count = glGetUniformLocation(this->shader_program, "spotlightCount");
+    glUniform1i(texture_unit, 0);
     glUniform1i(point_light_count, 0);
     glUniform1i(dir_light_count, 0);
     glUniform1i(spotlight_count, 0);
@@ -149,6 +153,13 @@ void ShaderProgram::SetMaterial(Material m)
     glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".diffuse").c_str()), 1, &m.diffuse[0]);
     glUniform3fv(glGetUniformLocation(shader_program, (base_name + ".specular").c_str()), 1, &m.specular[0]);
     glUniform1f(glGetUniformLocation(shader_program, (base_name + ".shininess").c_str()), m.shininess);
+    glUseProgram(0);
+}
+
+void ShaderProgram::SetTextureUnit(int unit)
+{
+    UseProgram();
+    glUniform1i(texture_unit, unit);
     glUseProgram(0);
 }
 

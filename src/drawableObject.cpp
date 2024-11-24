@@ -10,7 +10,12 @@ void DrawableObject::Draw()
 
     shader->UpdateModel(m_model);
     shader->SetMaterial(material);
-    
+
+    if (texture_unit > 0)
+    {
+        shader->SetTextureUnit(texture_unit);
+    }
+
     shader->UseProgram();
     glDrawArrays(GL_TRIANGLES, 0, model->GetVerticesCount());
     glUseProgram(0);

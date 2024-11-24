@@ -121,6 +121,7 @@ Application::~Application()
 {
     for (int i = 0; i < scenes.size(); i++)
         delete scenes[i];
+    TextureManager::Clear();
     glfwDestroyWindow(this->main_window);
     glfwTerminate();
     exit(EXIT_SUCCESS);

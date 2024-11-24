@@ -5,6 +5,7 @@
 #include "../shaderFactory.h"
 #include "../drawableObject.h"
 #include "../camera.h"
+#include "../textureManager.h"
 #include <vector>
 #include <memory>
 

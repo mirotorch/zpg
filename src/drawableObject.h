@@ -4,7 +4,6 @@
 #include "transformation.h"
 #include "shaderProgram.h"
 
-
 class DrawableObject
 {
 public:
@@ -12,6 +11,7 @@ public:
     ShaderProgram* shader;
     Transformation* transformation;
     Material material;
+    GLuint texture_unit = -1;
     void Draw();
     ~DrawableObject();
 };

@@ -24,6 +24,7 @@ private:
     GLint view_matrix = 0;
     GLint projection_matrix = 0;
     GLint camera_position = 0;
+    GLint texture_unit = 0;
 
     GLint point_light_count = 0;
     GLint dir_light_count = 0;
@@ -49,6 +50,7 @@ public:
     void UpdateLight(int index, DirLight l);
     void UpdateLight(int index, Spotlight l);
     void SetMaterial(Material m);
+    void SetTextureUnit(int unit);
 
     ~ShaderProgram();
 };  
