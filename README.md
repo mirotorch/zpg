@@ -1,3 +1,2 @@
-window resize
-reflection fix
-cursor unlock
+- fix spotlight
+- model loading
