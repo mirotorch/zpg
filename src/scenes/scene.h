@@ -15,9 +15,13 @@ protected:
     GLFWwindow* window;
     std::vector<DrawableObject*> drawable_objects;
     ShaderFactory* shader_factory;
+    std::string shader_path;
+
     Camera* camera;
     virtual void SetupCamera(glm::vec3 x, glm::vec3 y, glm::vec3 z);
-    std::string shader_path;
+    
+    std::vector<GLuint> textures;
+    virtual void LoadTextures(std::vector<std::string> names);
 
     float last_y;
     float last_x;

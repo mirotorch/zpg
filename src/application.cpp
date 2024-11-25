@@ -3,6 +3,7 @@
 #include "scenes/forestScene.h"
 #include "scenes/shadingTestScene.h"
 #include "scenes/suziScene.h"
+#include "scenes/textureScene.h"
 
 void Application::error_callback(int error, const char *description)
 {
@@ -141,7 +142,11 @@ void Application::CreateScenes()
     sphere->CreateDrawableObjects();
     scenes.push_back(sphere);
 
-    active_scene_index = 0;
+    TextureScene* texture = new TextureScene(shader_path, main_window);
+    texture->CreateDrawableObjects();
+    scenes.push_back(texture);
+
+    active_scene_index = 1;
 }
 
 void Application::Run()

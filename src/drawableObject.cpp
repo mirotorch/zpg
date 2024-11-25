@@ -11,7 +11,7 @@ void DrawableObject::Draw()
     shader->UpdateModel(m_model);
     shader->SetMaterial(material);
 
-    if (texture_unit > 0)
+    if (texture_unit >= 0)
     {
         shader->SetTextureUnit(texture_unit);
     }

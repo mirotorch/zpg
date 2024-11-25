@@ -15,8 +15,8 @@ private:
     GLuint vao;
     size_t vertices_count;
 public:
-    Model(std::vector<float> vertices, size_t vertices_count);
-    Model(const float vertices[], size_t array_length, size_t vertices_count);
+    Model(std::vector<float> vertices, size_t vertices_count, bool textured = false);
+    Model(const float vertices[], size_t array_length, size_t vertices_count, bool textured = false);
     void SetModel();
     size_t GetVerticesCount();
     ~Model();

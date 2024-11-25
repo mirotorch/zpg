@@ -10,6 +10,14 @@ void Scene::SetupCamera(glm::vec3 x, glm::vec3 y, glm::vec3 z)
     shader_factory = new ShaderFactory(shader_path, camera);
 }
 
+void Scene::LoadTextures(std::vector<std::string> names)
+{
+    for (const auto& name : names)
+    {
+        textures.push_back(TextureManager::GetTextureId(name));
+    }
+}
+
 Scene::Scene(std::string shader_path, GLFWwindow *window)
 {
     this->window = window;
@@ -29,6 +37,11 @@ Scene::~Scene()
 
 void Scene::Draw()
 {
+    for (int i = 0; i < textures.size(); i++)
+    {
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
+    }
     for (const auto &drawable : drawable_objects)
     {
         drawable->Draw();

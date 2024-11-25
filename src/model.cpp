@@ -1,11 +1,11 @@
 #include "model.h"
 
-Model::Model(const float vertices[], size_t array_length, size_t vertices_count) 
-: Model(std::vector(vertices, vertices + array_length), vertices_count)
+Model::Model(const float vertices[], size_t array_length, size_t vertices_count, bool textured) 
+: Model(std::vector(vertices, vertices + array_length), vertices_count, textured)
 {    
 }
 
-Model::Model(std::vector<float> vertices, size_t vertices_count)
+Model::Model(std::vector<float> vertices, size_t vertices_count, bool textured)
 {
     this->vertices_count = vertices_count;
 
@@ -17,8 +17,18 @@ Model::Model(std::vector<float> vertices, size_t vertices_count)
     glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+    if (textured)
+    {
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(sizeof(float) * 3));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(sizeof(float) * 6));
+    }
+    else
+    {  
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+    }
 }
 
 
