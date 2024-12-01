@@ -36,6 +36,19 @@ void TextureScene::CreateDrawableObjects()
     dwo2->texture_unit = 1;
     drawable_objects.push_back(dwo2);
 
+    DrawableObject* dwo3 = new DrawableObject
+    (
+        new Model("login.obj"),
+        shader_factory->GetShader("phong_v", "phong_textured_f"),
+        new CompoundTransformation(std::vector<Transformation*>{
+        new Translation(glm::vec3(4.0f, 0.0f, 5.0f)), 
+        new Rotation(glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f))
+        }),
+        Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
+        0
+    );
+    drawable_objects.push_back(dwo3);
+
     DirLight dl;
     dl.color = glm::vec3(1.0f);
     dl.direction = glm::vec3(0.0f, 0.0f, 1.0f);

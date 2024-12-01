@@ -133,20 +133,15 @@ void Application::CreateScenes()
     // ForestScene* forest = new ForestScene(shader_path, main_window);
     // forest->CreateDrawableObjects();
     // scenes.push_back(forest);
-
-    // SuziScene *suzi = new SuziScene(shader_path, main_window);
-    // suzi->CreateDrawableObjects();
-    // scenes.push_back(suzi);
-
-    SphereScene* sphere = new SphereScene(shader_path, main_window);
-    sphere->CreateDrawableObjects();
-    scenes.push_back(sphere);
+    // SphereScene* sphere = new SphereScene(shader_path, main_window);
+    // sphere->CreateDrawableObjects();
+    // scenes.push_back(sphere);
 
     TextureScene* texture = new TextureScene(shader_path, main_window);
     texture->CreateDrawableObjects();
     scenes.push_back(texture);
 
-    active_scene_index = 1;
+    active_scene_index = 0;
 }
 
 void Application::Run()

@@ -56,7 +56,7 @@ void ForestScene::CreateDrawableObjects()
     CreateForest(40, 20);
     delete drawable_objects[0]->transformation;
     drawable_objects[0]->transformation = nullptr;
-    shader_factory->GetShader("phong_v", "phong_f")->AddLight(NewPointLight(glm::vec3(0.0f), glm::vec3(1.0f), 
+    shader_factory->GetShader("phong_v", "phong_f")->AddLight(PointLight(glm::vec3(0.0f), glm::vec3(1.0f), 
     1.0f, 1.0f, 1.0f));
 }
 

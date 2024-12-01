@@ -1,5 +1,18 @@
 #include "drawableObject.h"
 
+DrawableObject::DrawableObject(Model *model, ShaderProgram *shader, Transformation *transformation, Material material, GLuint texture_unit)
+{
+    this->model = model;
+    this->shader = shader;
+    this->transformation = transformation;
+    this->material = material;
+    this->texture_unit = texture_unit;
+}
+
+DrawableObject::DrawableObject()
+{
+}
+
 void DrawableObject::Draw()
 {
     model->SetModel();
@@ -17,7 +30,10 @@ void DrawableObject::Draw()
     }
 
     shader->UseProgram();
-    glDrawArrays(GL_TRIANGLES, 0, model->GetVerticesCount());
+    if (model->HasIbo()) 
+        glDrawElements(GL_TRIANGLES, model->GetVerticesCount(), GL_UNSIGNED_INT, NULL);
+    else
+        glDrawArrays(GL_TRIANGLES, 0, model->GetVerticesCount());
     glUseProgram(0);
 }
 
