@@ -23,6 +23,12 @@ void Application::MouseCallback(GLFWwindow *window, double x_pos, double y_pos)
     if (app) app->HandleMouseOutput(x_pos, y_pos);
 }
 
+void Application::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (app) app->HadnleMouseButtonOutput(button, action, mods);
+}
+
 void Application::WindowSizeCallback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -86,6 +92,16 @@ void Application::HandleWindowResize(int w, int h)
     scenes[active_scene_index]->SetupProjectionPerspective(w, h);
 }
 
+void Application::HadnleMouseButtonOutput(int button, int action, int mods)
+{
+    if (action == GLFW_PRESS)
+    {
+        double xpos, ypos;
+        glfwGetCursorPos(main_window, &xpos, &ypos);
+        scenes[active_scene_index]->HandleMouseButtonInput(xpos, ypos, button);
+    }
+}
+
 Application::Application()
 {
     if (!glfwInit())
@@ -121,6 +137,7 @@ Application::Application()
     glfwSetKeyCallback(main_window, KeyCallback);
     glfwSetCursorPosCallback(main_window, MouseCallback);
     glfwSetFramebufferSizeCallback(main_window, WindowSizeCallback);
+    glfwSetMouseButtonCallback(main_window, MouseButtonCallback);
 }
 
 Application::~Application()
@@ -138,9 +155,9 @@ void Application::CreateScenes()
     ForestScene* forest = new ForestScene(shader_path, main_window);
     forest->CreateDrawableObjects();
     scenes.push_back(forest);
-    // SphereScene* sphere = new SphereScene(shader_path, main_window);
-    // sphere->CreateDrawableObjects();
-    // scenes.push_back(sphere);
+    SphereScene* sphere = new SphereScene(shader_path, main_window);
+    sphere->CreateDrawableObjects();
+    scenes.push_back(sphere);
 
     // TextureScene* texture = new TextureScene(shader_path, main_window);
     // texture->CreateDrawableObjects();
@@ -150,7 +167,7 @@ void Application::CreateScenes()
     // skybox->CreateDrawableObjects();
     // scenes.push_back(skybox);
 
-    active_scene_index = 0;
+    active_scene_index = 1;
 }
 
 void Application::Run()

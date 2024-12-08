@@ -122,7 +122,7 @@ void ShaderProgram::UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye)
         glUniform3fv(glGetUniformLocation(shader_program,
             ("spotlights[" + std::to_string(flashlights.at(i)) + "].position").c_str()), 1, &eye[0]);
         glUniform3fv(glGetUniformLocation(shader_program,
-            ("spotlights[" + std::to_string(flashlights.at(i)) + "].direction").c_str()), 1, &(-center)[0]);
+            ("spotlights[" + std::to_string(flashlights.at(i)) + "].direction").c_str()), 1, &(glm::normalize(center))[0]);
     }
 
     glUseProgram(0);

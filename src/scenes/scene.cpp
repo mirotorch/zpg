@@ -93,3 +93,7 @@ void Scene::HandleMouseInput(double x_pos, double y_pos)
 
     camera->Rotate(xoffset * rotation_speed, yoffset * rotation_speed); 
 }
+
+void Scene::HandleMouseButtonInput(double x_pos, double y_pos, int button)
+{
+}

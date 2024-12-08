@@ -14,4 +14,5 @@ public:
     ForestScene(std::string shader_path, GLFWwindow* window);
     void CreateDrawableObjects() override;
     void Draw() override;
+    void HandleMouseButtonInput(double x_pos, double y_pos, int button) override;
 };

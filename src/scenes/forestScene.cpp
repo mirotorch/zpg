@@ -14,13 +14,12 @@ void ForestScene::CreateForest(int trees, int bushes)
     {
         glm::vec3 translation(translation_dist(gen), 0.0f, translation_dist(gen));
         drawable_objects.push_back(new DrawableObject(
-        new Model("tree.obj"),
-        shader_factory->GetShader("phong_v", "textured_f"),
-        new Translation(translation),
-        Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
-        2
-    ));
-
+            new Model("tree.obj"),
+            shader_factory->GetShader("phong_v", "textured_f"),
+            new Translation(translation),
+            Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
+            2
+        ));
     }
 }
 
@@ -63,10 +62,22 @@ void ForestScene::Draw()
     Scene::Draw();
 }
 
+void ForestScene::HandleMouseButtonInput(double x_pos, double y_pos, int button)
+{
+    // TODO
+    // drawable_objects.push_back(new DrawableObject(
+    //     new Model("tree.obj"),
+    //     shader_factory->GetShader("phong_v", "textured_f"),
+    //     new Translation(glm::vec3(0.0f)),
+    //     Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
+    //     2
+    // ));
+}
+
 ForestScene::ForestScene(std::string shader_path, GLFWwindow* window) 
 : Scene(shader_path, window)
 {
-    SetupCamera(glm::vec3(0.0f, 4.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    SetupCamera(glm::vec3(0.0f, 5.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     skybox = new Skybox(this->camera, glm::vec3(2.0f, 2.0f, 2.0f));
     LoadTextures(std::vector<std::string> {"test.png", "tree.png", "grass.png", "zombie.png"});
 }
