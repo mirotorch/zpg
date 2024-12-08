@@ -20,6 +20,10 @@ void DrawableObject::Draw()
     glm::mat4 m_model = glm::mat4(1.0f);
     if (transformation)
         m_model = transformation->apply(m_model);
+    if (movement)
+    {
+        m_model = movement->GetNextPosition()->apply(m_model);
+    }
 
     shader->UpdateModel(m_model);
     shader->SetMaterial(material);
@@ -41,4 +45,5 @@ DrawableObject::~DrawableObject()
 {
     delete transformation;
     delete model;
+    delete movement;
 }
