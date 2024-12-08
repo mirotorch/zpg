@@ -1,13 +1,6 @@
 #include "drawableObject.h"
 
-// DrawableObject::DrawableObject(Model *model, ShaderProgram *shader, Transformation *transformation, Material material, GLuint texture_unit)
-// {
-//     this->model = model;
-//     this->shader = shader;
-//     this->transformation = transformation;
-//     this->material = material;
-//     this->texture_unit = texture_unit;
-// }
+int DrawableObject::cnt = 0;
 
 DrawableObject::DrawableObject(Model* model, ShaderProgram* shader, Transformation* transformation, Material material, GLuint texture_unit, Movement* movement)
 {
@@ -17,11 +10,13 @@ DrawableObject::DrawableObject(Model* model, ShaderProgram* shader, Transformati
     this->material = material;
     this->texture_unit = texture_unit;
     this->movement = movement;
+    this->id = cnt++;
 }
 
 
 DrawableObject::DrawableObject()
 {
+    this->id = cnt++;
 }
 
 void DrawableObject::Draw()
@@ -50,6 +45,11 @@ void DrawableObject::Draw()
     else
         glDrawArrays(GL_TRIANGLES, 0, model->GetVerticesCount());
     glUseProgram(0);
+}
+
+int DrawableObject::GetId()
+{
+    return this->id;
 }
 
 DrawableObject::~DrawableObject()

@@ -42,4 +42,7 @@ class Camera
     void ToLeft();
     void ToFront();
     void ToBack();
+
+    glm::mat4 GetView();
+    glm::mat4 GetProjection();
 };

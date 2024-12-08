@@ -106,3 +106,13 @@ void Camera::ToBack()
     eye -= glm::normalize(center);
     NotifyViewChanged();
 }
+
+glm::mat4 Camera::GetView()
+{
+    return glm::lookAt(eye, center + eye, up);
+}
+
+glm::mat4 Camera::GetProjection()
+{
+    return this->projection;
+}

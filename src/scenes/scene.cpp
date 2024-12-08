@@ -41,14 +41,21 @@ Scene::~Scene()
 
 void Scene::Draw()
 {
+    // draw skybox if any
     if (skybox != nullptr) skybox->Draw();
+    // load textures for this scene
     for (int i = 0; i < textures.size(); i++)
     {
         glActiveTexture(GL_TEXTURE1 + i);
         glBindTexture(GL_TEXTURE_2D, textures[i]);
     }
+    
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    // draw objects
     for (const auto &drawable : drawable_objects)
     {
+        glStencilFunc(GL_ALWAYS, drawable->GetId(), 0xFF);
         drawable->Draw();
     }
 }
