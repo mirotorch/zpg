@@ -1,6 +1,7 @@
 #include "forestScene.h"
 #include <glm/gtc/constants.hpp> 
 #include <random>
+#include "../movement/cubicBezierMovement.h"
 
 void ForestScene::CreateForest(int trees, int bushes)
 {
@@ -30,21 +31,30 @@ void ForestScene::CreateDrawableObjects()
     drawable_objects.push_back(new DrawableObject(
         new Model("model.obj"),
         sp,
-        new Translation(glm::vec3(10.0f, 0.0f, 10.0f)),
+        new Translation(glm::vec3(10.0f, 0.0f, -15.0f)),
         Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
         1
     ));
     drawable_objects.push_back(new DrawableObject(
-    new Model("floor.obj"),
-    sp,
-    new Scaling(glm::vec3(100.0f, 1.0f, 100.0f)),
-    Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
-    3
+        new Model("floor.obj"),
+        sp,
+        new Scaling(glm::vec3(100.0f, 1.0f, 100.0f)),
+        Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
+        3
     ));
-    // shader_factory->GetShader("phong_v", "textured_f")->AddLight(Spotlight(
-    //     glm::vec3(0.0f, 0.0f, 4.0f), glm::vec3(0.0f, 0.0f, 1.0f),
-    //     glm::vec3(1.0f), glm::radians(10.0f), glm::radians(10.1f), 1.0f, 0.18f, 0.064f, true
-    // ));
+
+    drawable_objects.push_back(new DrawableObject(
+        new Model("zombie.obj"),
+        sp,
+        new Translation(glm::vec3(-5.0f, 0.0f, -8.0f)),
+        Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
+        4,
+        new CubicBezierMovement(
+            glm::vec3(0.0f), glm::vec3(-10.0f, 10.0f, 0.0f),
+            glm::vec3(-10.0f, 0.0f, 10.0f), glm::vec3(0.0f), 
+            0.01f
+        )
+    ));
 }
 
 
@@ -58,5 +68,5 @@ ForestScene::ForestScene(std::string shader_path, GLFWwindow* window)
 {
     SetupCamera(glm::vec3(0.0f, 4.0f, -2.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     skybox = new Skybox(this->camera, glm::vec3(2.0f, 2.0f, 2.0f));
-    LoadTextures(std::vector<std::string> {"test.png", "tree.png", "grass.png"});
+    LoadTextures(std::vector<std::string> {"test.png", "tree.png", "grass.png", "zombie.png"});
 }
