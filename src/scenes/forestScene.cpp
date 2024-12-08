@@ -2,6 +2,7 @@
 #include <glm/gtc/constants.hpp> 
 #include <random>
 #include "../movement/cubicBezierMovement.h"
+#include "../movement/linearMovement.h"
 
 void ForestScene::CreateForest(int trees, int bushes)
 {
@@ -53,6 +54,16 @@ void ForestScene::CreateDrawableObjects()
             glm::vec3(-10.0f, 0.0f, 10.0f), glm::vec3(0.0f), 
             0.01f
         )
+    ));
+
+
+    drawable_objects.push_back(new DrawableObject(
+        new Model("zombie.obj"),
+        sp,
+        new Translation(glm::vec3(-5.0f, 0.0f, -16.0f)),
+        Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.5f), 32),
+        4,
+        new LinearMovement(glm::vec3(0.0f), glm::vec3(0.0f, 5.0f, 0.0f), 0.001)
     ));
 }
 
