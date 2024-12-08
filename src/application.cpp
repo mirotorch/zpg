@@ -4,6 +4,7 @@
 #include "scenes/shadingTestScene.h"
 #include "scenes/suziScene.h"
 #include "scenes/textureScene.h"
+#include "scenes/skyboxScene.h"
 
 void Application::error_callback(int error, const char *description)
 {
@@ -137,9 +138,13 @@ void Application::CreateScenes()
     // sphere->CreateDrawableObjects();
     // scenes.push_back(sphere);
 
-    TextureScene* texture = new TextureScene(shader_path, main_window);
-    texture->CreateDrawableObjects();
-    scenes.push_back(texture);
+    // TextureScene* texture = new TextureScene(shader_path, main_window);
+    // texture->CreateDrawableObjects();
+    // scenes.push_back(texture);
+
+    SkyboxScene* skybox = new SkyboxScene(shader_path, main_window);
+    skybox->CreateDrawableObjects();
+    scenes.push_back(skybox);
 
     active_scene_index = 0;
 }

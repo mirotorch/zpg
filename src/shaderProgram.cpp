@@ -165,6 +165,7 @@ void ShaderProgram::SetTextureUnit(int unit)
 
 void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
 {
+    printf("camera position: %f %f %f", view.x, view.y, view.z);
     this->UseProgram();
     glUniform3f(camera_position, view[0], view[1], view[2]);
     int count;

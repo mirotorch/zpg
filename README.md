@@ -1,1 +1,5 @@
 - fix spotlight
+- skybox
+- forest scene
+- texture 0 WILL ALWAYS BE SKYBOX!!!
+- add shader uniform variables

@@ -10,7 +10,7 @@
  *
  * @year 2023
  **/
-
+#pragma once
 
 const float bushes[] = {
    -0.010f , -0.001f , 0.010f , -0.760f , 0.489f , 0.429f ,

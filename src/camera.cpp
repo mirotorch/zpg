@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "stdio.h"
+
 void Camera::NotifyViewChanged()
 {
     printf("eye: %f, %f, %f\n", eye.x, eye.y, eye.z);

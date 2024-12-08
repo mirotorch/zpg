@@ -1,4 +1,5 @@
 #include "textureManager.h"
+#include <fstream>
 
 std::string TextureManager::base_dir = "/home/mirotorch/vsb3r/zpg/cv2/textures/";
 
@@ -28,9 +29,10 @@ GLuint TextureManager::GetTextureId(std::string texture_name)
         if (texture == 0)
         {
             std::cerr << "texture load failed, path=" << base_dir + texture_name << std::endl;
-            exit(1);
+            exit(4);
         }
         texture_map[texture_name] = texture;
         return texture;
     }
 }
+

@@ -10,6 +10,7 @@
  *
  * @year 2023
  **/
+#pragma once
 
 
 const float suziFlat[17424] ={
