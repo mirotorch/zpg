@@ -1,8 +1,1 @@
-- fix spotlight DONE
-- forest scene
-- movement DONE
-- skybox DONE
-- texture 0 WILL ALWAYS BE SKYBOX!!! OK
-- add shader uniform variables DONE
-- refactor icameraobserver DONE
-- fix specular idc
+https://youtu.be/7X-PxVeTLvo
