@@ -158,16 +158,8 @@ void Application::CreateScenes()
     SphereScene* sphere = new SphereScene(shader_path, main_window);
     sphere->CreateDrawableObjects();
     scenes.push_back(sphere);
-
-    // TextureScene* texture = new TextureScene(shader_path, main_window);
-    // texture->CreateDrawableObjects();
-    // scenes.push_back(texture);
-
-    // SkyboxScene* skybox = new SkyboxScene(shader_path, main_window);
-    // skybox->CreateDrawableObjects();
-    // scenes.push_back(skybox);
-
-    active_scene_index = 1;
+    
+    active_scene_index = 0;
 }
 
 void Application::Run()

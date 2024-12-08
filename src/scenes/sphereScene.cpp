@@ -3,6 +3,9 @@
 #include "../movement/linearMovement.h"
 #include "../movement/cubicBezierMovement.h"
 
+float degree = 0;
+int login_index = 0;
+
 void SphereScene::CreateDrawableObjects()
 {
     std::vector<float> sphere_vertices(sphere, sphere + sizeof(sphere) / sizeof(float));
@@ -56,6 +59,7 @@ void SphereScene::CreateDrawableObjects()
         ),
         Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(0.5f), 32)
     ));
+    login_index = drawable_objects.size() - 1;
     shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(
         DirLight(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 0.0f))
     );
@@ -70,6 +74,21 @@ void SphereScene::HandleMouseButtonInput(double x_pos, double y_pos, int button)
         shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(light);
         shader_factory->GetShader("phong_v", "blinn_multiple_f")->AddLight(light);
     }
+}
+
+void SphereScene::Draw()
+{
+    delete drawable_objects[login_index]->transformation;
+    drawable_objects[login_index]->transformation = new CompoundTransformation(
+        std::vector<Transformation*> {
+            new Translation(glm::vec3(3.0f, 0.0f, 10.0f)),
+            new Rotation(glm::radians(degree), glm::vec3(0.0f, 0.0f, 1.0f)),
+            new Rotation(glm::radians(180.f), glm::vec3(0.0f, 1.0f, 0.0f))
+        }
+    );
+    degree++;
+    if (degree == 360) degree = 0; 
+    Scene::Draw();
 }
 
 SphereScene::SphereScene(std::string shader_path, GLFWwindow* window)
