@@ -93,6 +93,7 @@ Model::Model(std::string model_name)
             if (err != GL_NO_ERROR)
             {
                 std::cout << "model loading GL ERROR: " << err << std::endl;
+                exit(3);
             }
             vertices_count = mesh->mNumFaces * 3;
             delete[] pVertices;

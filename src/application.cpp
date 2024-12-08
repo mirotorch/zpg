@@ -135,20 +135,20 @@ Application::~Application()
 
 void Application::CreateScenes()
 {
-    // ForestScene* forest = new ForestScene(shader_path, main_window);
-    // forest->CreateDrawableObjects();
-    // scenes.push_back(forest);
-    SphereScene* sphere = new SphereScene(shader_path, main_window);
-    sphere->CreateDrawableObjects();
-    scenes.push_back(sphere);
+    ForestScene* forest = new ForestScene(shader_path, main_window);
+    forest->CreateDrawableObjects();
+    scenes.push_back(forest);
+    // SphereScene* sphere = new SphereScene(shader_path, main_window);
+    // sphere->CreateDrawableObjects();
+    // scenes.push_back(sphere);
 
     // TextureScene* texture = new TextureScene(shader_path, main_window);
     // texture->CreateDrawableObjects();
     // scenes.push_back(texture);
 
-    SkyboxScene* skybox = new SkyboxScene(shader_path, main_window);
-    skybox->CreateDrawableObjects();
-    scenes.push_back(skybox);
+    // SkyboxScene* skybox = new SkyboxScene(shader_path, main_window);
+    // skybox->CreateDrawableObjects();
+    // scenes.push_back(skybox);
 
     active_scene_index = 0;
 }

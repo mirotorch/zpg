@@ -10,7 +10,6 @@
 class ForestScene : public Scene
 {
     void CreateForest(int trees, int bushes);
-    void SaveDrawableObject(Transformation* ct, bool is_tree);
 public:
     ForestScene(std::string shader_path, GLFWwindow* window);
     void CreateDrawableObjects() override;

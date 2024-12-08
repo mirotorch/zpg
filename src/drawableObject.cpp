@@ -1,13 +1,24 @@
 #include "drawableObject.h"
 
-DrawableObject::DrawableObject(Model *model, ShaderProgram *shader, Transformation *transformation, Material material, GLuint texture_unit)
+// DrawableObject::DrawableObject(Model *model, ShaderProgram *shader, Transformation *transformation, Material material, GLuint texture_unit)
+// {
+//     this->model = model;
+//     this->shader = shader;
+//     this->transformation = transformation;
+//     this->material = material;
+//     this->texture_unit = texture_unit;
+// }
+
+DrawableObject::DrawableObject(Model* model, ShaderProgram* shader, Transformation* transformation, Material material, GLuint texture_unit, Movement* movement)
 {
     this->model = model;
     this->shader = shader;
     this->transformation = transformation;
     this->material = material;
     this->texture_unit = texture_unit;
+    this->movement = movement;
 }
+
 
 DrawableObject::DrawableObject()
 {
@@ -28,7 +39,7 @@ void DrawableObject::Draw()
     shader->UpdateModel(m_model);
     shader->SetMaterial(material);
 
-    if (texture_unit >= 0)
+    if (texture_unit > 0)
     {
         shader->SetTextureUnit(texture_unit);
     }
