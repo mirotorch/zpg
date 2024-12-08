@@ -22,3 +22,19 @@ DirLight::DirLight(glm::vec3 direction, glm::vec3 color)
     this->direction = direction;
     this->color = color;
 }
+
+Spotlight::Spotlight()
+{
+}
+
+Spotlight::Spotlight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutoff, float outerCutoff, float constant, float linear, float quadratic)
+{
+    this->position = position;
+    this->direction = direction;
+    this->color = color;
+    this->cutoff = cutoff;
+    this->outerCutoff = outerCutoff;
+    this->constant = constant;
+    this->linear = linear;
+    this->quadratic = quadratic;
+}

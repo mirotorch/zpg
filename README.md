@@ -1,6 +1,7 @@
 - fix spotlight
-- skybox
 - forest scene
-- texture 0 WILL ALWAYS BE SKYBOX!!!
-- add shader uniform variables
-- refactor icameraobserver
+- movement
+- skybox DONE
+- texture 0 WILL ALWAYS BE SKYBOX!!! OK
+- add shader uniform variables DONE
+- refactor icameraobserver DONE

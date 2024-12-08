@@ -117,12 +117,12 @@ void ShaderProgram::UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye)
     glUniformMatrix4fv(view_matrix, 1, GL_FALSE, &view[0][0]);
 
     glUniform3f(camera_position, center[0], center[1], center[2]);
-    int count;
-    glGetUniformiv(shader_program, dir_light_count, &count);
-    for (int i = 0; i < count; i++) {
-        glUniform3fv(glGetUniformLocation(shader_program,
-            ("spotlights[" + std::to_string(i) + "].position").c_str()), 1, &center[0]);
-    }
+    // int count;
+    // glGetUniformiv(shader_program, dir_light_count, &count);
+    // for (int i = 0; i < count; i++) {
+    //     glUniform3fv(glGetUniformLocation(shader_program,
+    //         ("spotlights[" + std::to_string(i) + "].position").c_str()), 1, &center[0]);
+    // }
 
     glUseProgram(0);
 }
@@ -265,8 +265,8 @@ void ShaderProgram::UpdateLight(int index, Spotlight l)
     glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".position").c_str()), 1, &l.position[0]);
     glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".direction").c_str()), 1, &l.direction[0]);
     glUniform3fv(glGetUniformLocation(shader_program, (baseName + ".color").c_str()), 1, &l.color[0]);
-    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".cutoff").c_str()), l.constant);
-    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".outerCutoff").c_str()), l.constant);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".cutoff").c_str()), l.cutoff);
+    glUniform1f(glGetUniformLocation(shader_program, (baseName + ".outerCutoff").c_str()), l.outerCutoff);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".constant").c_str()), l.constant);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".linear").c_str()), l.linear);
     glUniform1f(glGetUniformLocation(shader_program, (baseName + ".quadratic").c_str()), l.quadratic);

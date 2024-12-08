@@ -150,7 +150,7 @@ void Application::CreateScenes()
     skybox->CreateDrawableObjects();
     scenes.push_back(skybox);
 
-    active_scene_index = 1;
+    active_scene_index = 0;
 }
 
 void Application::Run()

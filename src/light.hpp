@@ -43,6 +43,10 @@ struct Spotlight
     float constant;
     float linear;
     float quadratic;
+
+    Spotlight();
+    Spotlight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutoff, float outerCutoff, 
+        float constant, float linear, float quadratic);
 };
 
 #endif

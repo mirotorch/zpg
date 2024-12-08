@@ -39,13 +39,11 @@ void SphereScene::CreateDrawableObjects()
         drawable_objects.push_back(dwo);
     }
 
-    PointLight l(glm::vec3(1.0f), glm::vec3(0.0f), 0.1, 0.5, 1);
-    shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(l);
-    DirLight dl;
-    dl.color = glm::vec3(1.0f);
-    dl.direction = glm::vec3(1, 0, 0);
-    // shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(dl);
-    // shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(NewPointLight(glm::vec3(2.0f), glm::vec3(1.0f), 0.1, 1, 1));
+    shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(Spotlight(
+        glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 1.0f),
+        glm::vec3(1.0f), glm::radians(10.0f), glm::radians(15.0f), 1.0f, 0.18f, 0.064f
+    ));
+    // shader_factory->GetShader("phong_v", "phong_multiple_f")->AddLight(PointLight(glm::vec3(2.0f), glm::vec3(1.0f), 0.1, 1, 1));
 }
 
 
