@@ -17,7 +17,6 @@ class Skybox : public ICameraObserver
     GLuint vao;
     GLuint shader_program;
     GLuint texture;
-    glm::mat4 model_matrix;
 public:
     bool move = true;
     GLuint texture_unit = -1;

@@ -31,10 +31,9 @@ Skybox::Skybox(Camera* camera, glm::vec3 scale)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 
-    this->model_matrix = glm::scale(glm::mat4(1.0f), scale);
     glUseProgram(this->shader_program);
     glUniformMatrix4fv(glGetUniformLocation(this->shader_program, "modelMatrix"), 1, GL_FALSE, 
-        &this->model_matrix[0][0]);
+        &glm::scale(glm::mat4(1.0f), scale)[0][0]);
     glUseProgram(0);
 
     camera->Subscribe(this);
