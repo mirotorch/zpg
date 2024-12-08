@@ -10,9 +10,7 @@
 
 class SkyboxScene : public Scene
 {
-    Skybox* skybox;
 public:
     SkyboxScene(std::string shader_path, GLFWwindow* window);
     void CreateDrawableObjects() override;
-    void Draw() override;
 };

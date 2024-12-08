@@ -55,7 +55,11 @@ void Application::HandleKeyboardOutput(int key, int scancode, int action, int mo
             glfwSetInputMode(main_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         }
     }
-    if (key == GLFW_KEY_TAB && action == GLFW_PRESS && scenes.size() > 0)
+    else if (key == GLFW_KEY_N && action == GLFW_PRESS) 
+    {
+        scenes[active_scene_index]->ToggleSkybox();
+    }
+    else if (key == GLFW_KEY_TAB && action == GLFW_PRESS && scenes.size() > 0)
     {
         if (active_scene_index + 1 >= scenes.size())
             active_scene_index = 0;
@@ -134,9 +138,9 @@ void Application::CreateScenes()
     // ForestScene* forest = new ForestScene(shader_path, main_window);
     // forest->CreateDrawableObjects();
     // scenes.push_back(forest);
-    // SphereScene* sphere = new SphereScene(shader_path, main_window);
-    // sphere->CreateDrawableObjects();
-    // scenes.push_back(sphere);
+    SphereScene* sphere = new SphereScene(shader_path, main_window);
+    sphere->CreateDrawableObjects();
+    scenes.push_back(sphere);
 
     // TextureScene* texture = new TextureScene(shader_path, main_window);
     // texture->CreateDrawableObjects();
@@ -146,7 +150,7 @@ void Application::CreateScenes()
     skybox->CreateDrawableObjects();
     scenes.push_back(skybox);
 
-    active_scene_index = 0;
+    active_scene_index = 1;
 }
 
 void Application::Run()

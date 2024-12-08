@@ -5,7 +5,6 @@
 class ICameraObserver
 {
 public:
-    virtual void UpdateViewMatrix(glm::mat4 view) = 0;
-    virtual void UpdateCameraPosition(glm::vec3 view) = 0;
+    virtual void UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye) = 0;
     virtual void UpdateProjectionMatrix(glm::mat4 projection) = 0;
 };

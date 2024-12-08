@@ -6,6 +6,8 @@
 #include "../drawableObject.h"
 #include "../camera.h"
 #include "../textureManager.h"
+#include "../skybox.h"
+
 #include <vector>
 #include <memory>
 
@@ -23,6 +25,8 @@ protected:
     std::vector<GLuint> textures;
     virtual void LoadTextures(std::vector<std::string> names);
 
+    Skybox* skybox = nullptr;
+
     float last_y;
     float last_x;
     bool first_mouse = true;
@@ -33,6 +37,7 @@ public:
     void HandleKeyboardInput(int key, int scancode, int action, int mods);
     void HandleMouseInput(double x_pos, double y_pos);
     void SetupProjectionPerspective(int w, int h);
+    void ToggleSkybox();
     virtual void Draw();
     ~Scene();
 };

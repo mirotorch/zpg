@@ -17,13 +17,14 @@ class Skybox : public ICameraObserver
     GLuint vao;
     GLuint shader_program;
     GLuint texture;
+    glm::mat4 model_matrix;
 public:
+    bool move = true;
     GLuint texture_unit = -1;
     Skybox(Camera* camera, glm::vec3 scale);
     ~Skybox();
     void Draw();
 
-    void UpdateViewMatrix(glm::mat4 view);
-    void UpdateCameraPosition(glm::vec3 view);
+    void UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye);
     void UpdateProjectionMatrix(glm::mat4 projection);
 };

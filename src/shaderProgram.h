@@ -39,9 +39,9 @@ public:
     void UseProgram(); 
     void UpdateModel(glm::mat4 model);
 
-    virtual void UpdateViewMatrix(glm::mat4 view);
-    virtual void UpdateProjectionMatrix(glm::mat4 projection);
-    virtual void UpdateCameraPosition(glm::vec3 view);
+    // ICameraObserver
+    void UpdateProjectionMatrix(glm::mat4 projection);
+    void UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye);
 
     void AddLight(PointLight l);
     void AddLight(DirLight l);

@@ -32,11 +32,16 @@ Scene::~Scene()
     }
     drawable_objects.clear();
     delete shader_factory;
+    if (skybox != nullptr)
+    {
+        delete skybox;
+    }
     delete camera;
 }
 
 void Scene::Draw()
 {
+    if (skybox != nullptr) skybox->Draw();
     for (int i = 0; i < textures.size(); i++)
     {
         glActiveTexture(GL_TEXTURE1 + i);
@@ -45,6 +50,14 @@ void Scene::Draw()
     for (const auto &drawable : drawable_objects)
     {
         drawable->Draw();
+    }
+}
+
+void Scene::ToggleSkybox()
+{
+    if (skybox != nullptr)
+    {
+        skybox->move = !skybox->move;
     }
 }
 

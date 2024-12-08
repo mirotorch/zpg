@@ -111,10 +111,19 @@ void ShaderProgram::UpdateModel(glm::mat4 model)
 }
 
 
-void ShaderProgram::UpdateViewMatrix(glm::mat4 view)
+void ShaderProgram::UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye)
 {
     this->UseProgram();
     glUniformMatrix4fv(view_matrix, 1, GL_FALSE, &view[0][0]);
+
+    glUniform3f(camera_position, center[0], center[1], center[2]);
+    int count;
+    glGetUniformiv(shader_program, dir_light_count, &count);
+    for (int i = 0; i < count; i++) {
+        glUniform3fv(glGetUniformLocation(shader_program,
+            ("spotlights[" + std::to_string(i) + "].position").c_str()), 1, &center[0]);
+    }
+
     glUseProgram(0);
 }
 
@@ -160,20 +169,6 @@ void ShaderProgram::SetTextureUnit(int unit)
 {
     UseProgram();
     glUniform1i(texture_unit, unit);
-    glUseProgram(0);
-}
-
-void ShaderProgram::UpdateCameraPosition(glm::vec3 view)
-{
-    printf("camera position: %f %f %f", view.x, view.y, view.z);
-    this->UseProgram();
-    glUniform3f(camera_position, view[0], view[1], view[2]);
-    int count;
-    glGetUniformiv(shader_program, dir_light_count, &count);
-    for (int i = 0; i < count; i++) {
-        glUniform3fv(glGetUniformLocation(shader_program,
-            ("spotlights[" + std::to_string(i) + "].position").c_str()), 1, &view[0]);
-    }
     glUseProgram(0);
 }
 

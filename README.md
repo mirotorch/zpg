@@ -3,3 +3,4 @@
 - forest scene
 - texture 0 WILL ALWAYS BE SKYBOX!!!
 - add shader uniform variables
+- refactor icameraobserver

@@ -31,10 +31,10 @@ Skybox::Skybox(Camera* camera, glm::vec3 scale)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 
-    glm::mat4 model_matrix(1.0f);
+    this->model_matrix = glm::scale(glm::mat4(1.0f), scale);
     glUseProgram(this->shader_program);
     glUniformMatrix4fv(glGetUniformLocation(this->shader_program, "modelMatrix"), 1, GL_FALSE, 
-        &glm::scale(model_matrix, scale)[0][0]);
+        &this->model_matrix[0][0]);
     glUseProgram(0);
 
     camera->Subscribe(this);
@@ -56,17 +56,14 @@ void Skybox::Draw()
     glDepthMask(GL_TRUE);
 }
 
-void Skybox::UpdateViewMatrix(glm::mat4 view)
+void Skybox::UpdateView(glm::mat4 view, glm::vec3 center, glm::vec3 eye)
 {
     glUseProgram(this->shader_program);
+    if (move) 
+    {
+        view = glm::mat4(glm::mat3(view));
+    }
     glUniformMatrix4fv(glGetUniformLocation(this->shader_program, "viewMatrix"), 1, GL_FALSE, &view[0][0]);
-    glUseProgram(0);
-}
-
-void Skybox::UpdateCameraPosition(glm::vec3 view)
-{
-    glUseProgram(this->shader_program);
-    glUniform3fv(glGetUniformLocation(this->shader_program, "cameraPosition"), 1, &view[0]);
     glUseProgram(0);
 }
 
