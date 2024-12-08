@@ -27,7 +27,8 @@ Spotlight::Spotlight()
 {
 }
 
-Spotlight::Spotlight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutoff, float outerCutoff, float constant, float linear, float quadratic)
+Spotlight::Spotlight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutoff, 
+    float outerCutoff, float constant, float linear, float quadratic, bool flashlight)
 {
     this->position = position;
     this->direction = direction;
@@ -37,4 +38,5 @@ Spotlight::Spotlight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, f
     this->constant = constant;
     this->linear = linear;
     this->quadratic = quadratic;
+    this->flashlight = flashlight;
 }

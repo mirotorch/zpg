@@ -30,6 +30,7 @@ private:
     GLint dir_light_count = 0;
     GLint spotlight_count = 0;
 
+    std::vector<int> flashlights;
     std::string ReadGlsl(const char* path);
     void CheckCompileStatus(const char* shader_path, GLuint id);
 public:

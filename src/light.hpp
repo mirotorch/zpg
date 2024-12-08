@@ -34,6 +34,8 @@ struct DirLight
 
 struct Spotlight
 {
+    bool flashlight;
+
     glm::vec3 position;
     glm::vec3 direction;
     glm::vec3 color;
@@ -46,7 +48,7 @@ struct Spotlight
 
     Spotlight();
     Spotlight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutoff, float outerCutoff, 
-        float constant, float linear, float quadratic);
+        float constant, float linear, float quadratic, bool flashlight);
 };
 
 #endif
